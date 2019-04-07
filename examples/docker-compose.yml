@@ -1,0 +1,30 @@
+version: '2.1'
+services:
+    oracle:
+        image: orangehrm/oracle-xe-11g:latest
+        hostname: "oracle"
+        container_name: oracle
+        volumes:
+            - ./local-initdb:/etc/entrypoint-initdb.d
+        ports:
+            - "1521:1521"
+        expose:
+            - "1521"
+
+    authentication-service:
+        image: authentication-service:latest
+        container_name: authentication-service
+        ports:
+          - "9999:8080"
+          - "8787:8787"
+        environment:
+          JAVA_OPTS: '${JAVA_OPTS} -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Djava.net.preferIPv4Stack=true'
+          KEYCLOAK_USER: 'admin'
+          KEYCLOAK_PASSWORD: 'admin'
+          DB_VENDOR: 'oracle'
+          JDBC_PARAMS: 'connectTimeout=240'
+          DB_HOST: 'oracle'
+          DB_PORT: 1521
+          DB_DATABASE: 'xe'
+          DB_USER: 'system'
+          DB_PASSWORD: 'oracle'
