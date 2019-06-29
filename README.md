@@ -22,6 +22,6 @@ The installation of *Docker* and *Docker-Compose* is necessary to run the exampl
 
 You can access the *Administration Console* through this [link](http://localhost:9999/auth).
 
-## License
+## Licensing
 
-Apache License 2.0
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
