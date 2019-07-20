@@ -6,14 +6,15 @@ services:
         container_name: oracle
         volumes:
             - ./local-initdb:/etc/entrypoint-initdb.d
+            - ${HOME}/docker/oracle:/usr/lib/oracle/xe/oradata/XE
         ports:
             - "1521:1521"
         expose:
             - "1521"
 
-    authentication-service:
+    keycloak:
         image: authentication-service:latest
-        container_name: authentication-service
+        container_name: keycloak
         ports:
           - "9999:8080"
           - "8787:8787"
