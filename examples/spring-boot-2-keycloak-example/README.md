@@ -28,7 +28,7 @@ Remember that you have to install **docker** and **docker-compose** in you opera
 
 ## Configure Keycloak
 
-Access the **Keycloak Administration Console** through this [link](http://localhost:9999/admin) with **admin** as username and **admin** as password.
+Access the **Keycloak Administration Console** through this [link](http://localhost:9999/auth) with **admin** as username and **admin** as password.
 
 ### Create a Realm
 
