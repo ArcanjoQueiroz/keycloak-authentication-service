@@ -56,27 +56,21 @@ public class UserRepository {
         return em.createNamedQuery("findByUsernameOrEmail", User.class)
                 .setParameter("search", usernameOrEmail != null ? usernameOrEmail.trim().toLowerCase(): "")
                 .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getSingleResult();
     }
 
     public User findUserByUsername(final String username) {
         return em.createNamedQuery("findByUsername", User.class)
                 .setParameter("username", username != null ? username.trim().toLowerCase(): "")
                 .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getSingleResult();
     }
 
     public User findUserByEmail(final String email) {
         return em.createNamedQuery("findByEmail", User.class)
                 .setParameter("email", email != null ? email.trim().toLowerCase(): "")
                 .setMaxResults(1)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+                .getSingleResult();
     }
 
     public Collection<User> findAll() {
