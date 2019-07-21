@@ -23,7 +23,7 @@ public class HelloController {
   @ApiOperation(value = "Hello World", produces = MediaType.TEXT_PLAIN_VALUE, authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
   @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
   @ResponseBody
-  //@PreAuthorize("hasAnyAuthority('ROLE_FOO')")
+  @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
   public String helloWorld() {
     return "Hello World";
   }
@@ -31,7 +31,7 @@ public class HelloController {
   @ApiOperation(value = "Me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseBody
-  //@PreAuthorize("hasAnyAuthority('ROLE_USER')")
+  @PreAuthorize("hasAnyAuthority('ROLE_USER')")
   public User me() {
     return authenticationService.getUser();
   }

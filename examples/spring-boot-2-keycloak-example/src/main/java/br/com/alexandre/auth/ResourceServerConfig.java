@@ -22,18 +22,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableResourceServer
 @EnableOAuth2Client
-@EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true)
 @Profile("!test")
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter  {
 
   @Autowired
   private ResourceServerProperties resourceServerProperties;
-
+  
   @Override
   public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
     resources.resourceId(resourceServerProperties.getResourceId());
   }
-
+  
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     final CorsConfiguration configuration = new CorsConfiguration();
@@ -41,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter  {
     configuration.setAllowedHeaders(Arrays.asList("*"));
     configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
     configuration.setMaxAge(3600L);
-    
+
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
 
