@@ -11,65 +11,73 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "GROUPS")
-@SequenceGenerator(name = "GROUPS_SEQ", sequenceName = "GROUPS_SEQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(
+    name = "GROUPS_SEQ",
+    sequenceName = "GROUPS_SEQ",
+    initialValue = 1,
+    allocationSize = 1)
 public class Group implements Serializable {
 
-    private static final long serialVersionUID = -7817891841488600786L;
+  private static final long serialVersionUID = -7817891841488600786L;
 
-    @Id
-    @Column(name = "ID", nullable = false, insertable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GROUPS_SEQ")
-    private Long Id;
-    
-    @Column(name = "NAME", length = 30, nullable = false, insertable = false, updatable = false)
-    private String name;
-    
-    public Group() { }
+  @Id
+  @Column(name = "ID", nullable = false, insertable = false, updatable = false)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GROUPS_SEQ")
+  private Long id;
 
-    public Long getId() {
-      return Id;
-    }
+  @Column(name = "NAME", length = 30, nullable = false, insertable = false, updatable = false)
+  private String name;
 
-    public void setId(Long id) {
-      Id = id;
-    }
+  public Group() {}
 
-    public String getName() {
-      return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-      this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    @Override
-    public int hashCode() {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + ((name == null) ? 0 : name.hashCode());
-      return result;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
-      Group other = (Group) obj;
-      if (name == null) {
-        if (other.name != null)
-          return false;
-      } else if (!name.equals(other.name))
-        return false;
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
       return true;
     }
-
-    @Override
-    public String toString() {
-      return "Group [Id=" + Id + ", name=" + name + "]";
+    if (obj == null) {
+      return false;
     }
-    
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Group other = (Group) obj;
+    if (name == null) {
+      if (other.name != null) {
+        return false;
+      }
+    } else if (!name.equals(other.name)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Group [Id=" + id + ", name=" + name + "]";
+  }
 }
