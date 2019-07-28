@@ -1,7 +1,7 @@
 package br.com.alexandre;
 
-import org.springframework.context.annotation.Configuration;
 import br.com.alexandre.auth.swagger.SwaggerSecurityConfig;
+import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,7 +18,7 @@ public class SwaggerConfig extends SwaggerSecurityConfig {
         .title("Spring Boot 2 Keycloak Example")
         .description("REST API")
         .license("Apache License Version 2.0")
-        .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")                
+        .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
         .version("1.0")
         .build();
   }
@@ -31,5 +31,4 @@ public class SwaggerConfig extends SwaggerSecurityConfig {
         .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.any());
   }
-
 }

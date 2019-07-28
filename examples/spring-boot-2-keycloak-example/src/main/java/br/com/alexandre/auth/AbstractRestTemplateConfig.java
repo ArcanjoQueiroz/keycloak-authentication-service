@@ -12,23 +12,25 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 public abstract class AbstractRestTemplateConfig {
 
-    private Logger logger = LoggerFactory.getLogger(AbstractRestTemplateConfig.class);
-    
-    @Value("${app.connect.timeout:50000}")
-    private int connectTimeout;
-    
-    @Value("${rest.read.timeout:300000}")
-    private int readTimeout;
-    
-    protected RestTemplateBuilder build(final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter, 
-        final RestTemplateBuilder restTemplateBuilder) {
-        logger.info("Using connect timeout: {} ms, read timeout: {} ms", connectTimeout, readTimeout);
-        return restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(connectTimeout))
-                .setReadTimeout(Duration.ofMillis(readTimeout))
-                .messageConverters(mappingJackson2HttpMessageConverter,
-                        new StringHttpMessageConverter(),
-                        new FormHttpMessageConverter(),
-                        new ResourceHttpMessageConverter());
-    }
+  private Logger logger = LoggerFactory.getLogger(AbstractRestTemplateConfig.class);
+
+  @Value("${app.connect.timeout:50000}")
+  private int connectTimeout;
+
+  @Value("${rest.read.timeout:300000}")
+  private int readTimeout;
+
+  protected RestTemplateBuilder build(
+      final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter,
+      final RestTemplateBuilder restTemplateBuilder) {
+    logger.info("Using connect timeout: {} ms, read timeout: {} ms", connectTimeout, readTimeout);
+    return restTemplateBuilder
+        .setConnectTimeout(Duration.ofMillis(connectTimeout))
+        .setReadTimeout(Duration.ofMillis(readTimeout))
+        .messageConverters(
+            mappingJackson2HttpMessageConverter,
+            new StringHttpMessageConverter(),
+            new FormHttpMessageConverter(),
+            new ResourceHttpMessageConverter());
+  }
 }
