@@ -31,6 +31,16 @@ public class HelloController {
   }
 
   @ApiOperation(
+      value = "Hi",
+      produces = MediaType.TEXT_PLAIN_VALUE,
+      authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
+  @GetMapping(value = "/hi", produces = MediaType.TEXT_PLAIN_VALUE)
+  @ResponseBody
+  public String hi() {
+    return "Hi";
+  }
+
+  @ApiOperation(
       value = "Me",
       produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
       authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
