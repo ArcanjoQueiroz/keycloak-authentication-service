@@ -1,4 +1,4 @@
 language: java
 jdk: openjdk12
-script: mvn clean install
+script: ./build.sh
 
