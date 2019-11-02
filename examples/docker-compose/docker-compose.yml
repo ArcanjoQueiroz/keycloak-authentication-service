@@ -29,3 +29,4 @@ services:
           DB_DATABASE: 'xe'
           DB_USER: 'system'
           DB_PASSWORD: 'oracle'
+          TZ: GMT

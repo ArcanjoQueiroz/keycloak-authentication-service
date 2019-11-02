@@ -4,6 +4,7 @@ USER root
 
 ENV JBOSS_HOME=/opt/jboss/keycloak
 ENV TOOLS_HOME=/opt/jboss/tools
+ENV TZ=GMT
 
 # Adding themes
 ADD themes ${JBOSS_HOME}/themes
