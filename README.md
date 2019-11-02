@@ -1,6 +1,6 @@
 # Authentication Service
 
-OAuth2 Authentication Service using JBoss Keycloak 6.0.1 + Legacy Authentication SPI using EJB 3 and JPA 2 + Oracle DB Support.
+OAuth2 Authentication Service using JBoss Keycloak 7.0.1 + Legacy Authentication SPI using EJB 3 and JPA 2 + Oracle DB Support.
 
 This is an Authentication Service built using **JBoss Keycloak** and with **Oracle 11g database** support. Furthermore, there is an implementation of **Service Provider Interface (SPI)** in order to allow the authentication through legacy authentication database tables structure.
 

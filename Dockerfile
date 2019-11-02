@@ -1,11 +1,9 @@
-FROM jboss/keycloak:6.0.1
+FROM jboss/keycloak:7.0.1
 
 USER root
 
 ENV JBOSS_HOME=/opt/jboss/keycloak
 ENV TOOLS_HOME=/opt/jboss/tools
-
-RUN yum install -y iproute && yum clean all
 
 # Adding themes
 ADD themes ${JBOSS_HOME}/themes
