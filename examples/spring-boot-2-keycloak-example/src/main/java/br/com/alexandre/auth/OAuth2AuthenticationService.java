@@ -80,7 +80,8 @@ public class OAuth2AuthenticationService extends AbstractAuthenticationService
 
     final User user = new User(null, userName, givenName, familyName, email, roles);
     user.setJti(jti);
-
+    user.setAzp(azp);
+    
     return user;
   }
 

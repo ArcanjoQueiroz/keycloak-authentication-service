@@ -6,6 +6,10 @@ import br.com.alexandre.auth.swagger.SwaggerProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,25 +23,31 @@ public class HelloController {
 
   @Autowired private AuthenticationService authenticationService;
 
+  private Logger logger = LoggerFactory.getLogger(HelloController.class);
+
   @ApiOperation(
       value = "Hello World",
-      produces = MediaType.TEXT_PLAIN_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE,
       authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
-  @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
+  @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-  public String helloWorld() {
-    return "Hello World";
+  public Map<String, Object> helloWorld() {
+    final User user = authenticationService.getUser();
+    logger.info("Using azp: '{}', jti: '{}'", user.getAzp(), user.getJti());
+    return Map.of("message", "Hello World");
   }
 
   @ApiOperation(
       value = "Hi",
-      produces = MediaType.TEXT_PLAIN_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE,
       authorizations = @Authorization(value = SwaggerProperty.AUTH_NAME))
-  @GetMapping(value = "/hi", produces = MediaType.TEXT_PLAIN_VALUE)
+  @GetMapping(value = "/hi", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public String hi() {
-    return "Hi";
+  public Map<String, Object> hi() {
+    final User user = authenticationService.getUser();
+    logger.info("Using azp: '{}', jti: '{}'", user.getAzp(), user.getJti());
+    return Map.of("message", "Hi");
   }
 
   @ApiOperation(
@@ -48,6 +58,8 @@ public class HelloController {
   @ResponseBody
   @PreAuthorize("hasAnyAuthority('ROLE_USER')")
   public User me() {
+    final User user = authenticationService.getUser();
+    logger.info("Using azp: '{}', jti: '{}'", user.getAzp(), user.getJti());
     return authenticationService.getUser();
   }
 }

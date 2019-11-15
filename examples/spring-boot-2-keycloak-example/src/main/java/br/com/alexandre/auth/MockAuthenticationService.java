@@ -24,6 +24,7 @@ public class MockAuthenticationService extends AbstractAuthenticationService
     logger.info("Returning mock authenticated user...");
     final User user = createUser();
     user.setJti("mock");
+    user.setAzp("mock");
     user.setLevel(1L);
     return userDetailsService.getUserDetails(user);
   }

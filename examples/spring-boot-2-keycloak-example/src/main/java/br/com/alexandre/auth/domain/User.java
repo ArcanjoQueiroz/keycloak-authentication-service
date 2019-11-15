@@ -11,6 +11,7 @@ public class User implements Serializable {
 
   private static final long serialVersionUID = -7008087963833718951L;
 
+  private String azp;
   private String jti;
   private Long userId;
   private String userName;
@@ -117,6 +118,14 @@ public class User implements Serializable {
 
   public void setCompany(Company company) {
     this.company = company;
+  }
+
+  public String getAzp() {
+    return azp;
+  }
+
+  public void setAzp(String azp) {
+    this.azp = azp;
   }
 
   @Override
