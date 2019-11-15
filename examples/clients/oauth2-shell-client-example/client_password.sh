@@ -2,9 +2,9 @@
 
 REALM=test
 CLIENT_ID=my-client-id
-CLIENT_SECRET=2474ec65-3b82-4af3-a63b-aa782d429241
+CLIENT_SECRET=bc291a19-ad8b-42b4-81be-2775071fa949
 USERNAME=alexandre
-PASSWORD=foo
+PASSWORD=root
 
 # Direct Access Grants Enabled: On
 ACCESS_TOKEN=$(curl -s -X POST http://localhost:9999/auth/realms/$REALM/protocol/openid-connect/token \
