@@ -42,6 +42,7 @@ Fill the following fields:
 ```
 Client ID name: my-client-id
 Client Protocol: openid-connect
+Access Type: confidential
 ```
 
 And click on Save button.
