@@ -18,12 +18,13 @@ public class UserRepository {
   protected EntityManager em;
 
   public boolean validateCredentials(final String username, final String password) {
-    final String encryptedPassword = encrypt(password.toUpperCase());
+    final String encryptedPassword = encrypt(password);
     final User user = findUserByUsername(username);
     if (user == null) {
       logger.warn("User with username " + username + " not found");
       return false;
     }
+    logger.info("User Password: " + password + ", Encrypted Password: " + encryptedPassword);
     return user.getPassword() != null && user.getPassword().equals(encryptedPassword);
   }
 
@@ -34,7 +35,7 @@ public class UserRepository {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public User updateCredentials(final String username, final String password) {
-    final String encryptedPassword = encrypt(password.toUpperCase());
+    final String encryptedPassword = encrypt(password);
     final User user = findUserByUsername(username);
     if (user == null) {
       logger.warn("User with username " + username + " not found");

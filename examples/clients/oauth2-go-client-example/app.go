@@ -7,9 +7,9 @@ import (
 
 var config = clientcredentials.Config{
 	ClientID:     "service-client-id",
-	ClientSecret: "63d07f4e-b461-42db-81fa-0589d3c52fb1",
+	ClientSecret: "3f8fa682-041e-4f41-a263-025b813fb219",
 	Scopes:       []string{"profile"},
-	TokenURL:     "http://localhost:9999/auth/realms/test/protocol/openid-connect/token",
+	TokenURL:     "http://localhost:9999/auth/realms/master/protocol/openid-connect/token",
 }
 
 func main() {
