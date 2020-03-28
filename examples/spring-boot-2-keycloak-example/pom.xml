@@ -16,7 +16,7 @@
 	<description>Spring Boot 2 Keycloak Example</description>
 
 	<properties>
-		<java.version>12</java.version>
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>

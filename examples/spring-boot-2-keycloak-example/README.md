@@ -24,7 +24,7 @@ In order to start the Oracle XE Database for this example. Start the Keycloak ty
 $ docker-compose up keycloak
 ```
 
-Remember that you have to install **docker** and **docker-compose** in you operating system.
+Remember that you have to install **docker** and **docker-compose** in your operating system.
 
 ## Configure Keycloak
 

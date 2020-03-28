@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class Oauth2RestClientConfig {
 
   @Bean
-  @ConfigurationProperties("app.oauth2.client")
+  @ConfigurationProperties("security.oauth2.client")
   protected ClientCredentialsResourceDetails oauthDetails() {
     return new ClientCredentialsResourceDetails();
   }

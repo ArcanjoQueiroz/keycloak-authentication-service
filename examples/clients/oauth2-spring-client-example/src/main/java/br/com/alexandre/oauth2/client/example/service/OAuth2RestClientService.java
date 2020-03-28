@@ -13,7 +13,7 @@ public class OAuth2RestClientService {
 
   @Autowired private RestTemplate restTemplate;
 
-  @Value("${app.baseUrl}/hi") private String url;
+  @Value("${service.base-url}/hi") private String url;
 
   private Logger logger = LoggerFactory.getLogger(OAuth2RestClientService.class);
 

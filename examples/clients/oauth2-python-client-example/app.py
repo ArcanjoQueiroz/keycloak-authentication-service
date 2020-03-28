@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 import os
@@ -7,8 +7,8 @@ import json
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 client_id='service-client-id'
-client_secret='63d07f4e-b461-42db-81fa-0589d3c52fb1'
-access_token_uri='http://localhost:9999/auth/realms/test/protocol/openid-connect/token'
+client_secret='3f8fa682-041e-4f41-a263-025b813fb219'
+access_token_uri='http://localhost:9999/auth/realms/master/protocol/openid-connect/token'
 scopes=['profile']
 
 class OAuth2Client:

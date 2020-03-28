@@ -1,6 +1,5 @@
 package br.com.alexandre.keycloak.spi;
 
-import br.com.alexandre.keycloak.spi.base.AbstractUserStorageProvider;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -9,14 +8,15 @@ import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
-import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.cache.CachedUserModel;
+import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.storage.StorageId;
+import br.com.alexandre.keycloak.spi.base.AbstractUserStorageProvider;
 
 public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
 
@@ -197,7 +197,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
 
   @Override
   public boolean supportsCredentialType(final String credentialType) {
-    return CredentialModel.PASSWORD.equals(credentialType);
+    return PasswordCredentialModel.TYPE.equals(credentialType);
   }
 
   @SuppressWarnings("unchecked")
@@ -223,7 +223,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public Set<String> getDisableableCredentialTypes(final RealmModel realm, final UserModel user) {
     if (getUserAdapter(user).getPassword() != null) {
       final Set<String> set = new HashSet<>();
-      set.add(CredentialModel.PASSWORD);
+      set.add(PasswordCredentialModel.TYPE);
       return set;
     } else {
       return Collections.emptySet();
