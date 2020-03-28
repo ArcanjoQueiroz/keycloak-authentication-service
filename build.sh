@@ -2,5 +2,5 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
 
-mvn clean install -f ${SCRIPT_PATH}/spi/ejb-jpa-keycloak-spi/pom.xml && \
+${SCRIPT_PATH}/examples/build.sh && \
     docker build -t authentication-service:latest ${SCRIPT_PATH}
