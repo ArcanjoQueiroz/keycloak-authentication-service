@@ -1,8 +1,11 @@
 package br.com.alexandre.keycloak.spi;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
@@ -19,6 +22,8 @@ import org.keycloak.storage.StorageId;
 import br.com.alexandre.keycloak.spi.base.AbstractUserStorageProvider;
 
 public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
+
+  private static final String USERS_QUERY_SEARCH = "keycloak.session.realm.users.query.search";
 
   private static final String ADMIN = "admin";
 
@@ -103,8 +108,8 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public List<UserModel> getUsers(final RealmModel realm) {
     final List<UserModel> users =
         this.userRepository.findAll().stream()
-            .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
-            .collect(Collectors.toList());
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
     logger.info("Returned " + users.size() + " users");
     return users;
   }
@@ -114,18 +119,51 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       final RealmModel realm, final int firstResult, final int maxResults) {
     final List<UserModel> users =
         this.userRepository.findAll(firstResult, maxResults).stream()
-            .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
-            .collect(Collectors.toList());
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
     logger.info("Returned " + users.size() + " users");
     return users;
+  }
+
+  @Override
+  public List<UserModel> searchForUser(
+      Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {    
+    Collection<User> users = new ArrayList<User>();
+    if (params.isEmpty()) {
+      users = this.userRepository.findAll();
+    } else if (params.containsKey(USERS_QUERY_SEARCH)) {
+      final String search = params.get(USERS_QUERY_SEARCH);
+      users = this.userRepository.findAllByUsernameOrEmail(search, firstResult, maxResults);
+    }    
+    final List<UserModel> usersModel = users.stream()
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
+    logger.info("Returned " + users.size() + " users");
+    return usersModel;  
+  }
+  
+  @Override
+  public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
+    Collection<User> users = new ArrayList<User>();
+    if (params.isEmpty()) {
+      users = this.userRepository.findAll();
+    } else if (params.containsKey(USERS_QUERY_SEARCH)) {
+      final String search = params.get(USERS_QUERY_SEARCH);
+      users = this.userRepository.findAllByUsernameOrEmail(search);
+    }    
+    final List<UserModel> usersModel = users.stream()
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
+    logger.info("Returned " + users.size() + " users");
+    return usersModel;  
   }
 
   @Override
   public List<UserModel> searchForUser(final String search, final RealmModel realm) {
     final List<UserModel> users =
         this.userRepository.findAllByUsernameOrEmail(search).stream()
-            .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
-            .collect(Collectors.toList());
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
     logger.info("Returned " + users.size() + " users");
     return users;
   }
@@ -135,8 +173,8 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       final String search, final RealmModel realm, final int firstResult, final int maxResults) {
     final List<UserModel> users =
         this.userRepository.findAllByUsernameOrEmail(search, firstResult, maxResults).stream()
-            .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
-            .collect(Collectors.toList());
+        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .collect(Collectors.toList());
     logger.info("Returned " + users.size() + " users");
     return users;
   }

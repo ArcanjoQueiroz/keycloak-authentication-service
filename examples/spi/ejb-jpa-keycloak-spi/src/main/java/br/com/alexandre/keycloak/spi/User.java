@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,21 +24,21 @@ import javax.persistence.Table;
       @NamedQuery(name = "count", query = "select count(u) from User u where u.blocked = 'N'"),
       @NamedQuery(
           name = "findAll",
-          query = "select u from User u join fetch u.groups where u.blocked = 'N'"),
+          query = "select u from User u where u.blocked = 'N'"),
       @NamedQuery(
           name = "findByUsername",
           query =
-              "select u from User u join fetch u.groups where u.blocked = 'N' "
+              "select u from User u where u.blocked = 'N' "
               + "and lower(u.username) = :username"),
       @NamedQuery(
           name = "findByEmail",
           query =
-              "select u from User u join fetch u.groups where u.blocked = 'N' "
+              "select u from User u where u.blocked = 'N' "
               + "and lower(u.email) = :email"),
       @NamedQuery(
           name = "findByUsernameOrEmail",
           query =
-              "select u from User u join fetch u.groups where u.blocked = 'N' "
+              "select u from User u where u.blocked = 'N' "
               + "and (lower(u.username) = :search or lower(u.email) = :search)"),
     })
 @SequenceGenerator(
@@ -72,7 +73,7 @@ public class User implements Serializable {
   @Column(name = "BLOCKED", length = 1, nullable = false)
   private String blocked;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "USERS_GROUPS",
       joinColumns = {@JoinColumn(name = "USER_ID")},

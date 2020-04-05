@@ -29,4 +29,5 @@ public abstract class AbstractUserAdapter extends AbstractUserAdapterFederatedSt
     final List<String> attribute = super.getAttribute(name);
     return (attribute == null) ? new ArrayList<>() : attribute;
   }
+  
 }
