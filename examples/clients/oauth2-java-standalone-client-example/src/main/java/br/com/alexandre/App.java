@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -24,7 +25,18 @@ public class App {
   private static Logger logger = LoggerFactory.getLogger(App.class);
 
   public static void main(String[] args) {
+    final int connectTimeout = 0;
+    final int socketTimeout = 120;
+    final int connectionRequestTimeout = 60;
+
+    final RequestConfig requestConfig = RequestConfig.custom()
+        .setConnectTimeout(connectTimeout * 1000)
+        .setConnectionRequestTimeout(connectionRequestTimeout * 1000)
+        .setSocketTimeout(socketTimeout * 1000)
+        .build();
+
     try (final CloseableHttpClient client = HttpClientBuilder.create()
+        .setDefaultRequestConfig(requestConfig)
         .addInterceptorFirst(
             new OAuth2KeycloakHttpRequestInterceptor(ACCESS_TOKEN_URI, CLIENT_ID, CLIENT_SECRET))
         .setConnectionTimeToLive(4, TimeUnit.SECONDS)
