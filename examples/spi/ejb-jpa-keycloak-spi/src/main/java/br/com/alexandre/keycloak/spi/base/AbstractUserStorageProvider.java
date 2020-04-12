@@ -1,9 +1,7 @@
 package br.com.alexandre.keycloak.spi.base;
 
-import br.com.alexandre.keycloak.spi.UserAdapter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import org.keycloak.credential.CredentialInputUpdater;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.RealmModel;
@@ -14,6 +12,7 @@ import org.keycloak.storage.UserStorageProvider;
 import org.keycloak.storage.user.UserLookupProvider;
 import org.keycloak.storage.user.UserQueryProvider;
 import org.keycloak.storage.user.UserRegistrationProvider;
+import br.com.alexandre.keycloak.spi.UserAdapter;
 
 public abstract class AbstractUserStorageProvider
     implements UserStorageProvider,
@@ -28,17 +27,6 @@ public abstract class AbstractUserStorageProvider
   public boolean isConfiguredFor(
       final RealmModel realm, final UserModel user, final String credentialType) {
     return supportsCredentialType(credentialType);
-  }
-
-  @Override
-  public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public List<UserModel> searchForUser(
-      Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
-    return Collections.emptyList();
   }
 
   @Override

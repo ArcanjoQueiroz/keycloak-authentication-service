@@ -1,6 +1,5 @@
 package br.com.alexandre.keycloak.spi;
 
-import br.com.alexandre.keycloak.spi.base.AbstractUserAdapter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,6 +10,7 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
+import br.com.alexandre.keycloak.spi.base.AbstractUserAdapter;
 
 public class UserAdapter extends AbstractUserAdapter {
 
@@ -101,6 +101,11 @@ public class UserAdapter extends AbstractUserAdapter {
     g.addAll(legacy);
 
     return g;
+  }
+
+  protected Set<GroupModel> getGroupsInternal() {
+    return
+        this.groups.stream().map(g -> new GroupAdapter(g)).collect(Collectors.toSet());
   }
 
   @Override
