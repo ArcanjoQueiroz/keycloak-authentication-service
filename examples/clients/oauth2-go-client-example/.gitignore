@@ -15,4 +15,4 @@ vendor
 *.lock
 
 # Binary generated
-app
+app.*

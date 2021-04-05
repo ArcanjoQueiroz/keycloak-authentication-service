@@ -7,7 +7,7 @@ import (
 )
 
 // PrintResponse for print the HTTP Response
-func PrintResponse(resp * http.Response) {
+func PrintResponse(resp *http.Response) {
 	body, _ := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if resp.StatusCode == 200 {

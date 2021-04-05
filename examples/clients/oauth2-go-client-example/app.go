@@ -3,16 +3,21 @@ package main
 import (
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2/clientcredentials"
+	"log"
+	"os"
 )
 
 var config = clientcredentials.Config{
 	ClientID:     "service-client-id",
-	ClientSecret: "3f8fa682-041e-4f41-a263-025b813fb219",
+	ClientSecret: os.Getenv("CLIENT_SECRET"),
 	Scopes:       []string{"profile"},
 	TokenURL:     "http://localhost:9999/auth/realms/master/protocol/openid-connect/token",
 }
 
 func main() {
+	log.Printf("ClientId: %s", config.ClientID)
+	log.Printf("Client Secret: %s", config.ClientSecret)
+	log.Printf("Token URL: %s", config.TokenURL)
 	client := config.Client(context.Background())
 
 	resp, err := client.Get("http://localhost:9091/consume")
