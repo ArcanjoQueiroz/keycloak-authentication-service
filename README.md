@@ -10,10 +10,16 @@ The SPI example was built using **EJB 3**, **JPA (Hibernate)** and **JBoss Loggi
 
 ## Running the example
 
-Inside the directory *examples*, type:
+Inside the directory *examples*, create *Docker Storage*:
 
 ```sh
-$ docker-compose up
+./create-storage.sh
+```
+
+And:
+
+```sh
+docker-compose up
 ```
 
 The Keycloak run on port *9999* and the debug port is *8787*. The Oracle XE Database uses the default port (*1521*) and *8080* (Apex).
