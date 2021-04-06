@@ -1,9 +1,16 @@
 #!/bin/bash
-
-REALM=master
-CLIENT_ID=service-client-id
-CLIENT_SECRET=3f062820-630c-4f61-ad7f-a4137be3fff7
-SCOPES=profile
+if [ -z "${REALM}" ]; then
+    REALM=master
+fi
+if [ -z "${CLIENT_ID}" ]; then
+    CLIENT_ID=service-client-id
+fi
+if [ -z "${CLIENT_SECRET}" ]; then
+    CLIENT_SECRET=3f8fa682-041e-4f41-a263-025b813fb219
+fi
+if [ -z "${SCOPES}" ]; then
+    SCOPES=profile
+fi
 
 OAUTH2_RESPONSE=$(curl -s -X POST http://localhost:9999/auth/realms/$REALM/protocol/openid-connect/token \
     -H "Content-Type: application/x-www-form-urlencoded" \

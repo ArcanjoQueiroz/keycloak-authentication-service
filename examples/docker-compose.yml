@@ -6,7 +6,7 @@ services:
         container_name: oracle
         volumes:
             - ./local-initdb:/etc/entrypoint-initdb.d
-            - ${HOME}/docker/oracle:/usr/lib/oracle/xe/oradata/XE
+            - oracle-storage:/usr/lib/oracle/xe/oradata/XE
         ports:
             - "1521:1521"
         expose:
@@ -30,3 +30,8 @@ services:
           DB_USER: 'system'
           DB_PASSWORD: 'oracle'
           TZ: GMT
+
+volumes:
+  oracle-storage:
+    external: true
+
