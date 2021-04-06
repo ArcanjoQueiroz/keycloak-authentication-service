@@ -88,3 +88,14 @@ If you don't have Apache Maven installed replace the mvn command by *mvnw*:
 ./mvnw clean install spring-boot:run
 ```
 
+You can configure *client-id* and *client-secret* this way:
+
+```sh
+mvn clean install spring-boot:run -Dapp.oauth2.client-id=service-client-id -Dapp.oauth2.client-secret=3f8fa682-041e-4f41-a263-025b813fb219
+```
+
+or:
+
+```sh
+APP_OAUTH2_CLIENT_ID=service-client-id APP_OAUTH2_CLIENT_SECRET=3f8fa682-041e-4f41-a263-025b813fb219 mvn clean install spring-boot:run
+```

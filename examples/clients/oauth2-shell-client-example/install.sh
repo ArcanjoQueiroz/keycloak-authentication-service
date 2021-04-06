@@ -1,2 +1,4 @@
 #!/bin/bash
-sudo apt-get install jq -y
+if ! [ -x "$(command -v jq)" ]; then
+    sudo apt-get install jq -y
+fi    
