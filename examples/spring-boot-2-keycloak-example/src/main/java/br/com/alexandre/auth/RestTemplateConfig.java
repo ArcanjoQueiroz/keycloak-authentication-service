@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfig extends AbstractRestTemplateConfig {
 
-  private Logger logger = LoggerFactory.getLogger(RestTemplateConfig.class);
+  private final Logger logger = LoggerFactory.getLogger(RestTemplateConfig.class);
 
   @Bean
   @ConditionalOnBean(value = MockAuthenticationService.class)

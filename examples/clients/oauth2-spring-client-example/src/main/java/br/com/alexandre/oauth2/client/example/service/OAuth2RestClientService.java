@@ -15,7 +15,7 @@ public class OAuth2RestClientService {
 
   @Value("${service.base-url}/hi") private String url;
 
-  private Logger logger = LoggerFactory.getLogger(OAuth2RestClientService.class);
+  private final Logger logger = LoggerFactory.getLogger(OAuth2RestClientService.class);
 
   public MyObject getForObject() {
     logger.info("Sending OAuth2 HTTP Request to: '{}'...", url);

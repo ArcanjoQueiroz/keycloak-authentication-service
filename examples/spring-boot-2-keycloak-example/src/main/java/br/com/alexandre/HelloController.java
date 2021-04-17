@@ -23,7 +23,7 @@ public class HelloController {
 
   @Autowired private AuthenticationService authenticationService;
 
-  private Logger logger = LoggerFactory.getLogger(HelloController.class);
+  private final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
   @ApiOperation(
       value = "Hello World",

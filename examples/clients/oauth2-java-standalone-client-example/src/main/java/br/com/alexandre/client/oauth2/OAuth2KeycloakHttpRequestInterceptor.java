@@ -21,13 +21,13 @@ import com.google.gson.GsonBuilder;
 
 public class OAuth2KeycloakHttpRequestInterceptor implements HttpRequestInterceptor {
 
-  private String accessTokenUri;
-  private String clientId;
-  private String clientSecret;
-  private HttpClient httpClient;
-  private Gson gson;
+  private final String accessTokenUri;
+  private final String clientId;
+  private final String clientSecret;
+  private final HttpClient httpClient;
+  private final Gson gson;
 
-  private Logger logger = LoggerFactory.getLogger(OAuth2KeycloakHttpRequestInterceptor.class);
+  private final Logger logger = LoggerFactory.getLogger(OAuth2KeycloakHttpRequestInterceptor.class);
 
   public OAuth2KeycloakHttpRequestInterceptor(final String accessTokenUri, final String clientId, 
       final String clientSecret) {
