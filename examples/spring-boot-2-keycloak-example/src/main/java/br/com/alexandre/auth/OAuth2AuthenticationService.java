@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class OAuth2AuthenticationService extends AbstractAuthenticationService
     implements AuthenticationService {
 
-  private Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationService.class);
+  private final Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationService.class);
 
   @Autowired private UserDetailsService userDetailsService;
 

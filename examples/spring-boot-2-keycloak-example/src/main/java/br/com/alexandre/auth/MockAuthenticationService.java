@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MockAuthenticationService extends AbstractAuthenticationService
     implements AuthenticationService {
 
-  private Logger logger = LoggerFactory.getLogger(MockAuthenticationService.class);
+  private final Logger logger = LoggerFactory.getLogger(MockAuthenticationService.class);
 
   @Autowired private UserDetailsService userDetailsService;
 

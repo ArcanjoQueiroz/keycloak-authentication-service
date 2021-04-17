@@ -12,7 +12,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 public abstract class AbstractRestTemplateConfig {
 
-  private Logger logger = LoggerFactory.getLogger(AbstractRestTemplateConfig.class);
+  private final Logger logger = LoggerFactory.getLogger(AbstractRestTemplateConfig.class);
 
   @Value("${app.connect.timeout:50000}")
   private int connectTimeout;

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class BasicUserDetailsService implements UserDetailsService {
 
-  private Logger logger = LoggerFactory.getLogger(BasicUserDetailsService.class);
+  private final Logger logger = LoggerFactory.getLogger(BasicUserDetailsService.class);
 
   @Override
   public User getUserDetails(final User user) {

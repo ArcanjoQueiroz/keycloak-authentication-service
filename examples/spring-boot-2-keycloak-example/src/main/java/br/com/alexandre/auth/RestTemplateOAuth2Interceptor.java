@@ -12,7 +12,7 @@ import org.springframework.http.client.ClientHttpResponse;
 
 public class RestTemplateOAuth2Interceptor implements ClientHttpRequestInterceptor {
 
-  private Logger logger = LoggerFactory.getLogger(RestTemplateOAuth2Interceptor.class);
+  private final Logger logger = LoggerFactory.getLogger(RestTemplateOAuth2Interceptor.class);
 
   @Override
   public ClientHttpResponse intercept(

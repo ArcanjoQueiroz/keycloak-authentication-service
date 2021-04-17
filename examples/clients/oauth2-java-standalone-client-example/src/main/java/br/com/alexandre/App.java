@@ -16,13 +16,13 @@ import br.com.alexandre.client.oauth2.OAuth2KeycloakHttpRequestInterceptor;
 
 public class App {
   private static final String SERVICE_URL = System.getProperty("service_url", "http://localhost:9090/hi");  
-  private static String ACCESS_TOKEN_URI = System.getProperty("access_token_uri", 
+  private static final String ACCESS_TOKEN_URI = System.getProperty("access_token_uri", 
       "http://localhost:9999/auth/realms/master/protocol/openid-connect/token");
-  private static String CLIENT_ID = System.getProperty("client_id", "service-client-id");  
-  private static String CLIENT_SECRET = System.getProperty("client_secret", 
+  private static final String CLIENT_ID = System.getProperty("client_id", "service-client-id");  
+  private static final String CLIENT_SECRET = System.getProperty("client_secret", 
       "3f062820-630c-4f61-ad7f-a4137be3fff7");
 
-  private static Logger logger = LoggerFactory.getLogger(App.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
   public static void main(String[] args) {
     final int connectTimeout = 0;
@@ -50,9 +50,9 @@ public class App {
 
         if (httpEntity != null) {
           final String payload = EntityUtils.toString(httpEntity);
-          logger.info("Status Code: '{}'\nPayload: '{}'", statusCode, payload);
+          LOGGER.info("Status Code: '{}'\nPayload: '{}'", statusCode, payload);
         } else {
-          logger.info("Status Code: '{}'", statusCode);
+          LOGGER.info("Status Code: '{}'", statusCode);
         }        
       }      
 
