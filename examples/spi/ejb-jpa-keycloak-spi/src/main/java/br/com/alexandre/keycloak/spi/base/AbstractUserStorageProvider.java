@@ -36,7 +36,7 @@ public abstract class AbstractUserStorageProvider
   }
 
   protected UserAdapter getUserAdapter(final UserModel user) {
-    UserAdapter adapter = null;
+    UserAdapter adapter;
     if (user instanceof CachedUserModel) {
       adapter = (UserAdapter) ((CachedUserModel) user).getDelegateForUpdate();
     } else {

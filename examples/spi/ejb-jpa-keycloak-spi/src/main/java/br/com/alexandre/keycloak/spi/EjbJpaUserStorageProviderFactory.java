@@ -10,12 +10,12 @@ import org.keycloak.storage.UserStorageProviderFactory;
 public class EjbJpaUserStorageProviderFactory
     implements UserStorageProviderFactory<EjbJpaUserStorageProvider> {
 
-  private static final Logger logger = Logger.getLogger(EjbJpaUserStorageProviderFactory.class);
+  private static final Logger LOGGER = Logger.getLogger(EjbJpaUserStorageProviderFactory.class);
 
   @Override
   public EjbJpaUserStorageProvider create(KeycloakSession session, ComponentModel model) {
-    EjbJpaUserStorageProvider storageProvider = null;
-    logger.info("Creating User Storage Provider...");
+    EjbJpaUserStorageProvider storageProvider;
+    LOGGER.info("Creating User Storage Provider...");
     try {
       final InitialContext ctx = new InitialContext();
       final UserRepository userRepository =
@@ -26,7 +26,7 @@ public class EjbJpaUserStorageProviderFactory
     } catch (NamingException e) {
       throw new RuntimeException("Error on creating User Storage Provider: " + e.getMessage(), e);
     }
-    logger.info("Created User Storage Provider...");
+    LOGGER.info("Created User Storage Provider...");
     return storageProvider;
   }
 
