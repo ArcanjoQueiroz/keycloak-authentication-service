@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "google"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+  },
+  "rules": {
+    "require-jsdoc": 0,
+    "max-len": [2, 100, 4],
+    "new-cap": 0
+  },
+  "env": {
+    "node": true
+  }
+
+}

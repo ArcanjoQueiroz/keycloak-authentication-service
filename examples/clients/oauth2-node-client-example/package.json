@@ -1,0 +1,23 @@
+{
+  "name": "oauth2-node-client-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "eslint": "./node_modules/.bin/eslint .",
+    "fix": "./node_modules/.bin/eslint . --fix"
+  },
+  "keywords": [
+    "Node",
+    "OAuth2",
+    "Keycloak"
+  ],
+  "author": "Alexandre Arcanjo de Queiroz",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "eslint": "^7.24.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
