@@ -27,7 +27,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
 
   private static final String ADMIN = "admin";
 
-  private static final Logger logger = Logger.getLogger(EjbJpaUserStorageProvider.class);
+  private static final Logger LOGGER = Logger.getLogger(EjbJpaUserStorageProvider.class);
 
   private final KeycloakSession session;
   private final ComponentModel model;
@@ -53,7 +53,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     final UserCredentialModel cred = (UserCredentialModel) input;
     final boolean valid =
         this.userRepository.validateCredentials(user.getUsername(), cred.getValue());
-    logger.info("User " + user.getUsername() + " is " + ((valid) ? "valid" : "invalid"));
+    LOGGER.info("User " + user.getUsername() + " is " + ((valid) ? "valid" : "invalid"));
     return valid;
   }
 
@@ -64,13 +64,13 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       return false;
     }
     final UserCredentialModel cred = (UserCredentialModel) input;
-    logger.info("Updating user " + user.getUsername() + " credentials...");
+    LOGGER.info("Updating user " + user.getUsername() + " credentials...");
     final User updateCredentials =
         this.userRepository.updateCredentials(user.getUsername(), cred.getValue());
     final boolean updated = updateCredentials != null;
     if (updated) {
       getUserAdapter(user).setPassword(updateCredentials.getPassword());
-      logger.info("Credentials was successfully updated");
+      LOGGER.info("Credentials was successfully updated");
     }
     return updated;
   }
@@ -79,7 +79,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public UserModel addUser(final RealmModel realm, final String username) {
     if (username != null && !ADMIN.equalsIgnoreCase(username)) {
       final User user = this.userRepository.save(username);
-      logger.info("Saving user " + username + " ...");
+      LOGGER.info("Saving user " + username + " ...");
       return new UserAdapter(session, realm, model, user);
     } else {
       return null;
@@ -89,10 +89,10 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   @Override
   public boolean removeUser(final RealmModel realm, final UserModel user) {
     final String externalId = StorageId.externalId(user.getId());
-    logger.info("Removing user by ID: " + externalId);
+    LOGGER.info("Removing user by ID: " + externalId);
     final boolean remove = this.userRepository.remove(externalId);
     if (remove) {
-      logger.info("User with ID " + externalId + " was successfully removed");
+      LOGGER.info("User with ID " + externalId + " was successfully removed");
     }
     return remove;
   }
@@ -100,7 +100,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   @Override
   public int getUsersCount(final RealmModel realm) {
     final int usersCount = this.userRepository.getUsersCount();
-    logger.info("Users Count: " + usersCount);
+    LOGGER.info("Users Count: " + usersCount);
     return usersCount;
   }
 
@@ -110,7 +110,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
         this.userRepository.findAll().stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return users;
   }
 
@@ -121,7 +121,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
         this.userRepository.findAll(firstResult, maxResults).stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return users;
   }
 
@@ -138,7 +138,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     final List<UserModel> usersModel = users.stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return usersModel;  
   }
   
@@ -154,7 +154,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     final List<UserModel> usersModel = users.stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return usersModel;  
   }
 
@@ -164,7 +164,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
         this.userRepository.findAllByUsernameOrEmail(search).stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return users;
   }
 
@@ -175,20 +175,20 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
         this.userRepository.findAllByUsernameOrEmail(search, firstResult, maxResults).stream()
         .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
         .collect(Collectors.toList());
-    logger.info("Returned " + users.size() + " users");
+    LOGGER.info("Returned " + users.size() + " users");
     return users;
   }
 
   @Override
   public UserModel getUserById(final String id, final RealmModel realm) {
     final String externalId = StorageId.externalId(id);
-    logger.info("ID: " + id + ", External Id: " + externalId);
+    LOGGER.info("ID: " + id + ", External Id: " + externalId);
     final User user = this.userRepository.findUserByUsername(externalId);
     if (user == null) {
-      logger.warn("User with ID " + id + " not found");
+      LOGGER.warn("User with ID " + id + " not found");
       return null;
     } else {
-      logger.info("User " + user.getUsername() + " found by id " + externalId);
+      LOGGER.info("User " + user.getUsername() + " found by id " + externalId);
 
       return new UserAdapter(session, realm, model, user, user.getGroups());
     }
@@ -198,10 +198,10 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public UserModel getUserByUsername(final String username, final RealmModel realm) {
     final User user = this.userRepository.findUserByUsername(username);
     if (user == null) {
-      logger.warn("User with username " + username + " not found");
+      LOGGER.warn("User with username " + username + " not found");
       return null;
     } else {
-      logger.info("User " + user.getUsername() + " found by username " + username);
+      LOGGER.info("User " + user.getUsername() + " found by username " + username);
 
       return new UserAdapter(session, realm, model, user, user.getGroups());
     }
@@ -211,10 +211,10 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public UserModel getUserByEmail(final String email, final RealmModel realm) {
     final User user = this.userRepository.findUserByEmail(email);
     if (user == null) {
-      logger.warn("User with email " + email + " not found");
+      LOGGER.warn("User with email " + email + " not found");
       return null;
     } else {
-      logger.info("User " + user.getUsername() + " found by email " + email);
+      LOGGER.info("User " + user.getUsername() + " found by email " + email);
 
       return new UserAdapter(session, realm, model, user, user.getGroups());
     }
@@ -223,13 +223,13 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   @Override
   public List<UserModel> getGroupMembers(
       RealmModel realm, GroupModel group, int firstResult, int maxResults) {
-    logger.info("Finding group members by group " + group.getName() + " ...");
+    LOGGER.info("Finding group members by group " + group.getName() + " ...");
     return Collections.emptyList();
   }
 
   @Override
   public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
-    logger.info("Finding group members by group " + group.getName() + " ...");
+    LOGGER.info("Finding group members by group " + group.getName() + " ...");
     return Collections.emptyList();
   }
 
@@ -270,6 +270,6 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
 
   @Override
   public void close() {
-    logger.debug("Closing " + EjbJpaUserStorageProvider.class.getSimpleName() + "...");
+    LOGGER.debug("Closing " + EjbJpaUserStorageProvider.class.getSimpleName() + "...");
   }
 }

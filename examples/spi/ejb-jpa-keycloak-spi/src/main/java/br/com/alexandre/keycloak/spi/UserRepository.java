@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 @Stateless
 public class UserRepository {
 
-  private static final Logger logger = Logger.getLogger(UserRepository.class);
+  private static final Logger LOGGER = Logger.getLogger(UserRepository.class);
 
   @PersistenceContext(unitName = "ejb-jpa-keycloak-spi")
   protected EntityManager em;
@@ -21,10 +21,10 @@ public class UserRepository {
     final String encryptedPassword = encrypt(password);
     final User user = findUserByUsername(username);
     if (user == null) {
-      logger.warn("User with username " + username + " not found");
+      LOGGER.warn("User with username " + username + " not found");
       return false;
     }
-    logger.info("User Password: " + password + ", Encrypted Password: " + encryptedPassword);
+    LOGGER.info("User Password: " + password + ", Encrypted Password: " + encryptedPassword);
     return user.getPassword() != null && user.getPassword().equals(encryptedPassword);
   }
 
@@ -38,7 +38,7 @@ public class UserRepository {
     final String encryptedPassword = encrypt(password);
     final User user = findUserByUsername(username);
     if (user == null) {
-      logger.warn("User with username " + username + " not found");
+      LOGGER.warn("User with username " + username + " not found");
       return null;
     }
     user.setPassword(encryptedPassword);
@@ -110,7 +110,7 @@ public class UserRepository {
 
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public User save(final String username) {
-    logger.info("Saving user " + username + "...");
+    LOGGER.info("Saving user " + username + "...");
 
     final User user = new User();
     user.setUsername(username);
