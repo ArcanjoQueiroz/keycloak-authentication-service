@@ -7,29 +7,34 @@ import json
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-client_id=os.getenv('CLIENT_ID', 'service-client-id')
-client_secret=os.getenv('CLIENT_SECRET', '40a03705-9ea7-476c-be7b-a9a52dde3955')
-access_token_uri='http://localhost:9999/auth/realms/master/protocol/openid-connect/token'
+client_id=os.getenv('CLIENT_ID', 'test')
+client_secret=os.getenv('CLIENT_SECRET', '08d355bb-463d-4d18-b69e-a1ec1cb7ed11')
+access_token_uri=os.getenv('ACCESS_TOKEN_URI', 'http://localhost:9999/auth/realms/master/protocol/openid-connect/token')
 scopes=['profile']
 
 class OAuth2Client:
-    def __init__(self, client_id='', client_secret='', access_token_uri='', scopes=[]):
+    def __init__(self, client_id='', client_secret='', access_token_uri='', scopes=[], username=None, password=None):
         self.client_id = client_id
         self.client_secret = client_secret
         self.access_token_uri = access_token_uri
         self.scopes = scopes
         self.client = BackendApplicationClient(client_id=client_id)
         self.oauth = OAuth2Session(client=self.client)
+        self.username = username
+        self.password = password
 
     def fetch_token(self):
         self.token = self.oauth.fetch_token(token_url=self.access_token_uri,
             client_id=self.client_id,
             client_secret=self.client_secret,
+            username=self.username,
+            password=self.password,
             scopes=self.scopes)
         return self
 
     def get_session(self):
         return self.oauth
+
 
 def print_response(response):
     if response.status_code == 200:
@@ -45,6 +50,8 @@ if __name__ == '__main__':
         access_token_uri=access_token_uri,
         scopes=scopes)
     session = oauth2_client.fetch_token().get_session()
+    print(f"Client ID: {session.client_id}")
+    print(f"Access Token: {session.access_token}")
 
     response = session.get('http://localhost:9091/consume')
     print_response(response)
