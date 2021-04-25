@@ -1,3 +1,7 @@
+--liquibase formatted sql
+--changeset arcanjoaq:1.0.0
+--comment Creating table legacy tables
+
 CREATE TABLE USERS (
 ID          INTEGER       NOT NULL PRIMARY KEY,
 USERNAME    VARCHAR(30)   NOT NULL,

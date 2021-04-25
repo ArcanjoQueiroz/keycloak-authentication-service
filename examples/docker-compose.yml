@@ -12,6 +12,29 @@ services:
         expose:
             - "1521"
 
+    liquibase:
+        build: ./liquibase
+        hostname: liquibase
+        container_name: liquibase
+        depends_on: 
+            - oracle
+        volumes:
+            - ./liquibase/jdbc:/liquibase/jdbc:ro
+            - ./liquibase/changelog:/liquibase/changelog:ro
+        environment:
+          TZ: GMT
+          WAIT_HOSTS: oracle:1521
+          WAIT_HOSTS_TIMEOUT: 300
+          WAIT_SLEEP_INTERVAL: 30
+          WAIT_HOST_CONNECT_TIMEOUT: 30     
+        command: sh -c "/wait && liquibase 
+          --driver=oracle.jdbc.driver.OracleDriver 
+          --classpath=/liquibase/changelog:/liquibase/jdbc/ojdbc7.jar 
+          --url=jdbc:oracle:thin:@oracle:1521/xe 
+          --changeLogFile=changelog.xml 
+          --username=system 
+          --password=oracle migrate"
+
     keycloak:
         image: authentication-service:latest
         container_name: keycloak_server
