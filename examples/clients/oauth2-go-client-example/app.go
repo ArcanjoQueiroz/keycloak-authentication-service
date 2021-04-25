@@ -1,25 +1,53 @@
 package main
 
 import (
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2/clientcredentials"
 	"log"
+	"net/http"
 	"os"
+
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 var config = clientcredentials.Config{
-	ClientID:     getEnv("CLIENT_ID", "service-client-id"),
-	ClientSecret: getEnv("CLIENT_SECRET", "3f8fa682-041e-4f41-a263-025b813fb219"),
+	ClientID:     getEnv("CLIENT_ID", "test"),
+	ClientSecret: getEnv("CLIENT_SECRET", "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5"),
 	Scopes:       []string{"profile"},
-	TokenURL:     "http://localhost:9999/auth/realms/master/protocol/openid-connect/token",
+	TokenURL:     getEnv("ACCESS_TOKEN_URI", "http://localhost:9999/auth/realms/test/protocol/openid-connect/token"),
+}
+
+var passwordConfig = oauth2.Config{
+	ClientID:     getEnv("CLIENT_ID", "test"),
+	ClientSecret: getEnv("CLIENT_SECRET", "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5"),
+	Scopes:       []string{"profile"},
+	Endpoint: oauth2.Endpoint{
+		TokenURL:     getEnv("ACCESS_TOKEN_URI", "http://localhost:9999/auth/realms/test/protocol/openid-connect/token"),
+	},
 }
 
 func main() {
 	log.Printf("ClientId: %s", config.ClientID)
 	log.Printf("Client Secret: %s", config.ClientSecret)
 	log.Printf("Token URL: %s", config.TokenURL)
-	client := config.Client(context.Background())
 
+	ctx := context.Background()
+
+	client := config.Client(ctx)
+
+	token, err := passwordConfig.PasswordCredentialsToken(ctx, "alexandre", "foo")
+	if err != nil {
+		panic(err)
+	} else {
+		log.Printf("Access Token: %s", token.AccessToken)
+	}	
+	passwordClient := passwordConfig.Client(ctx, token)
+
+	request(client)
+	request(passwordClient)
+}
+
+func request(client *http.Client) {
 	resp, err := client.Get("http://localhost:9091/consume")
 	if err != nil {
 		panic(err)
@@ -34,6 +62,7 @@ func main() {
 		PrintResponse(resp)
 	}
 }
+
 
 func getEnv(key, fallback string) string {
     value, exists := os.LookupEnv(key)

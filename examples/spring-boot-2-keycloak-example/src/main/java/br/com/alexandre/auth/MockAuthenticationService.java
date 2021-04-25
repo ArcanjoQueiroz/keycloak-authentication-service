@@ -30,6 +30,8 @@ public class MockAuthenticationService extends AbstractAuthenticationService
   }
 
   protected User createUser() {
-    return new User(1L, "mock", "mock", "mock", "mock@mock.com.br", Arrays.asList("ROLE_ADMIN"));
+    return new User(1L, "mock", "mock", "mock", 
+        "mock@mock.com.br", 
+        Arrays.asList("ROLE_ADMIN"), 1L);
   }
 }

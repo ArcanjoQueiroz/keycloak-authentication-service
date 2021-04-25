@@ -8,6 +8,7 @@
     "eslint": "./node_modules/.bin/eslint .",
     "fix": "./node_modules/.bin/eslint . --fix"
   },
+  "type": "module",  
   "keywords": [
     "Node",
     "OAuth2",

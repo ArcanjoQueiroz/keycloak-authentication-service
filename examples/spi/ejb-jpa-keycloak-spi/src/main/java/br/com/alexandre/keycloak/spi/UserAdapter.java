@@ -1,8 +1,11 @@
 package br.com.alexandre.keycloak.spi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.keycloak.component.ComponentModel;
@@ -12,8 +15,11 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
 import br.com.alexandre.keycloak.spi.base.AbstractUserAdapter;
 
+@lombok.ToString
+@lombok.EqualsAndHashCode(callSuper = false, of = { "user", "keycloakId" })
 public class UserAdapter extends AbstractUserAdapter {
 
+  private static final String COMPANY_ID_ATTRIBUTE = "companyId";
   private final User user;
   private Collection<Group> groups;
   private final String keycloakId;
@@ -37,7 +43,7 @@ public class UserAdapter extends AbstractUserAdapter {
       final User user) {
     this(session, realm, model, user, new ArrayList<>());
   }
-
+  
   @Override
   public String getId() {
     return keycloakId;
@@ -88,6 +94,8 @@ public class UserAdapter extends AbstractUserAdapter {
   public void setPassword(final String password) {
     this.user.setPassword(password);
   }
+  
+  // Groups
 
   @Override
   public Set<GroupModel> getGroups() {
@@ -107,47 +115,28 @@ public class UserAdapter extends AbstractUserAdapter {
     return
         this.groups.stream().map(g -> new GroupAdapter(g)).collect(Collectors.toSet());
   }
-
+  
+  // User Attributes
+    
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((keycloakId == null) ? 0 : keycloakId.hashCode());
-    result = prime * result + ((user == null) ? 0 : user.hashCode());
-    return result;
+  public void addUserAttributes(Map<String, List<String>> attributes) {
+    if (user.getCompanyId() != null) {
+      attributes.put(COMPANY_ID_ATTRIBUTE, Arrays.asList(user.getCompanyId().toString()));
+    }
+  }  
+  
+  @Override
+  public void setSingleAttribute(final String name, final String value) {
+    if (COMPANY_ID_ATTRIBUTE.equalsIgnoreCase(name)) {
+      user.setCompanyId(Integer.parseInt(value));
+    }
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+  public void setAttribute(final String name, final List<String> values) {
+    if (!values.isEmpty()) {
+      setSingleAttribute(name, values.get(0));
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    UserAdapter other = (UserAdapter) obj;
-    if (keycloakId == null) {
-      if (other.keycloakId != null) {
-        return false;
-      }
-    } else if (!keycloakId.equals(other.keycloakId)) {
-      return false;
-    }
-    if (user == null) {
-      if (other.user != null) {
-        return false;
-      }
-    } else if (!user.equals(other.user)) {
-      return false;
-    }
-    return true;
-  }
+  }  
 
-  @Override
-  public String toString() {
-    return "UserAdapter [user=" + user + ", keycloakId=" + keycloakId + "]";
-  }
 }

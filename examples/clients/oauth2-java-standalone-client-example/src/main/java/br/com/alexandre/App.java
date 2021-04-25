@@ -17,10 +17,10 @@ import br.com.alexandre.client.oauth2.OAuth2KeycloakHttpRequestInterceptor;
 public class App {
   private static final String SERVICE_URL = System.getProperty("service_url", "http://localhost:9090/hi");  
   private static final String ACCESS_TOKEN_URI = System.getProperty("access_token_uri", 
-      "http://localhost:9999/auth/realms/master/protocol/openid-connect/token");
-  private static final String CLIENT_ID = System.getProperty("client_id", "service-client-id");  
+      "http://localhost:9999/auth/realms/test/protocol/openid-connect/token");
+  private static final String CLIENT_ID = System.getProperty("client_id", "test");  
   private static final String CLIENT_SECRET = System.getProperty("client_secret", 
-      "3f062820-630c-4f61-ad7f-a4137be3fff7");
+      "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5");
 
   private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 

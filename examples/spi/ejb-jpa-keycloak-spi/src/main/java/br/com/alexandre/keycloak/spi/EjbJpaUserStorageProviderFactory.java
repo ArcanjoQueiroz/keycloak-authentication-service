@@ -10,6 +10,10 @@ import org.keycloak.storage.UserStorageProviderFactory;
 public class EjbJpaUserStorageProviderFactory
     implements UserStorageProviderFactory<EjbJpaUserStorageProvider> {
 
+  private static final String USER_STORAGE_FACTORY_NAME = "ejb-jpa-user-storage-factory";
+  
+  private static final String SPI_JNDI_NAME = "ejb-jpa-keycloak-spi";
+  
   private static final Logger LOGGER = Logger.getLogger(EjbJpaUserStorageProviderFactory.class);
 
   @Override
@@ -21,9 +25,11 @@ public class EjbJpaUserStorageProviderFactory
       final UserRepository userRepository =
           (UserRepository)
               ctx.lookup(
-                  "java:global/ejb-jpa-keycloak-spi/" + UserRepository.class.getSimpleName());
+                  String.format("java:global/%s/%s", 
+                      SPI_JNDI_NAME, 
+                      UserRepository.class.getSimpleName()));
       storageProvider = new EjbJpaUserStorageProvider(session, model, userRepository);
-    } catch (NamingException e) {
+    } catch (final NamingException e) {
       throw new RuntimeException("Error on creating User Storage Provider: " + e.getMessage(), e);
     }
     LOGGER.info("Created User Storage Provider...");
@@ -32,6 +38,6 @@ public class EjbJpaUserStorageProviderFactory
 
   @Override
   public String getId() {
-    return "ejb-jpa-user-storage-factory";
+    return USER_STORAGE_FACTORY_NAME;
   }
 }

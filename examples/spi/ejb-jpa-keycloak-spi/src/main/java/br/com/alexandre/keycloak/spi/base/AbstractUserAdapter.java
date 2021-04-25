@@ -12,7 +12,9 @@ import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 public abstract class AbstractUserAdapter extends AbstractUserAdapterFederatedStorage {
 
   public AbstractUserAdapter(
-      KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel) {
+      final KeycloakSession session, 
+      final RealmModel realm, 
+      final ComponentModel storageProviderModel) {
     super(session, realm, storageProviderModel);
   }
 
@@ -21,12 +23,16 @@ public abstract class AbstractUserAdapter extends AbstractUserAdapterFederatedSt
     final Map<String, List<String>> attrs = super.getAttributes();
     final MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
     all.putAll(attrs);
+    addUserAttributes(all);
     return all;
   }
+  
+  public abstract void addUserAttributes(final Map<String, List<String>> attributes);
 
   @Override
-  public List<String> getAttribute(String name) {
-    final List<String> attribute = super.getAttribute(name);
+  public List<String> getAttribute(final String name) {
+    final Map<String, List<String>> attributes = getAttributes();
+    final List<String> attribute = attributes.get(name);
     return (attribute == null) ? new ArrayList<>() : attribute;
   }
   
