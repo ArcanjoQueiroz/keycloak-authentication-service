@@ -3,7 +3,6 @@ package br.com.alexandre.keycloak.spi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +12,7 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
+import com.google.common.base.Strings;
 import br.com.alexandre.keycloak.spi.base.AbstractUserAdapter;
 
 @lombok.ToString
@@ -97,23 +97,11 @@ public class UserAdapter extends AbstractUserAdapter {
   
   // Groups
 
-  @Override
-  public Set<GroupModel> getGroups() {
-    final Set<GroupModel> groups = super.getGroups();
-
-    final Set<GroupAdapter> legacy =
-        this.groups.stream().map(g -> new GroupAdapter(g)).collect(Collectors.toSet());
-
-    final Set<GroupModel> g = new HashSet<>();
-    g.addAll(groups);
-    g.addAll(legacy);
-
-    return g;
-  }
-
   protected Set<GroupModel> getGroupsInternal() {
-    return
-        this.groups.stream().map(g -> new GroupAdapter(g)).collect(Collectors.toSet());
+    return this.groups.stream()
+        .map(g -> new GroupAdapter(g))
+        .filter(ga -> !Strings.isNullOrEmpty(ga.getId()))
+        .collect(Collectors.toSet());
   }
   
   // User Attributes

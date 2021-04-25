@@ -12,12 +12,38 @@ services:
         expose:
             - "1521"
 
+    liquibase:
+        build: ./liquibase
+        hostname: liquibase
+        container_name: liquibase
+        depends_on: 
+            - oracle
+        volumes:
+            - ./liquibase/jdbc:/liquibase/jdbc:ro
+            - ./liquibase/changelog:/liquibase/changelog:ro
+        environment:
+          TZ: GMT
+          WAIT_HOSTS: oracle:1521
+          WAIT_HOSTS_TIMEOUT: 300
+          WAIT_SLEEP_INTERVAL: 30
+          WAIT_HOST_CONNECT_TIMEOUT: 30     
+        command: sh -c "/wait && liquibase 
+          --driver=oracle.jdbc.driver.OracleDriver 
+          --logLevel=DEBUG 
+          --classpath=/liquibase/changelog:/liquibase/jdbc/ojdbc7.jar 
+          --url=jdbc:oracle:thin:@oracle:1521/xe 
+          --changeLogFile=changelog.xml 
+          --username=keycloak 
+          --password=keycloak migrate"
+
     keycloak:
         image: authentication-service:latest
         container_name: keycloak_server
         ports:
           - "9999:8080"
           - "8787:8787"
+        volumes:
+          - ./keycloak:/tmp/keycloak:ro          
         environment:
           JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n -Djava.net.preferIPv4Stack=true'
           KEYCLOAK_USER: 'admin'
@@ -27,9 +53,10 @@ services:
           DB_HOST: 'oracle'
           DB_PORT: 1521
           DB_DATABASE: 'xe'
-          DB_USER: 'system'
-          DB_PASSWORD: 'oracle'
+          DB_USER: 'keycloak'
+          DB_PASSWORD: 'keycloak'
           TZ: GMT
+          KEYCLOAK_IMPORT: "/tmp/keycloak/realm-test-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
 
 volumes:
   oracle-storage:

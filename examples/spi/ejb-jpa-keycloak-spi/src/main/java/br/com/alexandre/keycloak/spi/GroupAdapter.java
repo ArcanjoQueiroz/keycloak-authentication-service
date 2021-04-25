@@ -9,9 +9,10 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.RoleModel;
 
+@lombok.EqualsAndHashCode(of = { "group" })
 public class GroupAdapter implements GroupModel {
 
-  public Group group;
+  public final Group group;
 
   public GroupAdapter(final Group group) {
     this.group = group;
@@ -19,7 +20,7 @@ public class GroupAdapter implements GroupModel {
 
   @Override
   public String getId() {
-    return this.group.getId().toString();
+    return this.group.getGroupId();
   }
 
   @Override
@@ -28,7 +29,7 @@ public class GroupAdapter implements GroupModel {
   }
 
   @Override
-  public void setName(String name) {
+  public void setName(final String name) {
     this.group.setName(name);
   }
 

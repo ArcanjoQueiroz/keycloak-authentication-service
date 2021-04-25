@@ -8,7 +8,7 @@ import json
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 client_id=os.getenv('CLIENT_ID', 'test')
-client_secret=os.getenv('CLIENT_SECRET', 'b6f9cf49-6d4b-47d7-803b-dd81072dbcb5')
+client_secret=os.getenv('CLIENT_SECRET', 'a167e1f1-870d-4926-89d8-738a8d214817')
 access_token_uri=os.getenv('ACCESS_TOKEN_URI', 'http://localhost:9999/auth/realms/test/protocol/openid-connect/token')
 scopes=['profile']
 

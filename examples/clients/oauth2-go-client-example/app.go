@@ -12,14 +12,14 @@ import (
 
 var config = clientcredentials.Config{
 	ClientID:     getEnv("CLIENT_ID", "test"),
-	ClientSecret: getEnv("CLIENT_SECRET", "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5"),
+	ClientSecret: getEnv("CLIENT_SECRET", "a167e1f1-870d-4926-89d8-738a8d214817"),
 	Scopes:       []string{"profile"},
 	TokenURL:     getEnv("ACCESS_TOKEN_URI", "http://localhost:9999/auth/realms/test/protocol/openid-connect/token"),
 }
 
 var passwordConfig = oauth2.Config{
 	ClientID:     getEnv("CLIENT_ID", "test"),
-	ClientSecret: getEnv("CLIENT_SECRET", "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5"),
+	ClientSecret: getEnv("CLIENT_SECRET", "a167e1f1-870d-4926-89d8-738a8d214817"),
 	Scopes:       []string{"profile"},
 	Endpoint: oauth2.Endpoint{
 		TokenURL:     getEnv("ACCESS_TOKEN_URI", "http://localhost:9999/auth/realms/test/protocol/openid-connect/token"),

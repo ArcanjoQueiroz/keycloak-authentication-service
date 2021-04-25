@@ -120,7 +120,3 @@ or:
 ```sh
 APP_OAUTH2_CLIENT_ID=service-client-id APP_OAUTH2_CLIENT_SECRET=3f8fa682-041e-4f41-a263-025b813fb219 mvn clean install spring-boot:run
 ```
-
-## Importing realm file
-
-You can import all realm configurations through *Manage > Import* option inside Keycloak Admin Console. There is a file in *examples/config/realm-test-export.json* with an example of *Partial Import*.
