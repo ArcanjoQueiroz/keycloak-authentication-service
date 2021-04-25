@@ -5,6 +5,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.google.gson.annotations.SerializedName;
 
+@lombok.Getter
+@lombok.Setter
+@lombok.NoArgsConstructor
+@lombok.EqualsAndHashCode(of = { "accessToken" })
 class AccessTokenResponse implements Serializable {
   private static final long serialVersionUID = -1714617202662539867L;
 
@@ -37,86 +41,6 @@ class AccessTokenResponse implements Serializable {
 
   @SerializedName(value = "error_description")
   private String errorDescription;
-
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  public Long getExpiresIn() {
-    return expiresIn;
-  }
-
-  public void setExpiresIn(Long expiresIn) {
-    this.expiresIn = expiresIn;
-  }
-
-  public Long getRefreshExpiresIn() {
-    return refreshExpiresIn;
-  }
-
-  public void setRefreshExpiresIn(Long refreshExpiresIn) {
-    this.refreshExpiresIn = refreshExpiresIn;
-  }
-
-  public String getRefreshToken() {
-    return refreshToken;
-  }
-
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-  public String getTokenType() {
-    return tokenType;
-  }
-
-  public void setTokenType(String tokenType) {
-    this.tokenType = tokenType;
-  }
-
-  public Long getNotBeforePolicy() {
-    return notBeforePolicy;
-  }
-
-  public void setNotBeforePolicy(Long notBeforePolicy) {
-    this.notBeforePolicy = notBeforePolicy;
-  }
-
-  public String getSessionState() {
-    return sessionState;
-  }
-
-  public void setSessionState(String sessionState) {
-    this.sessionState = sessionState;
-  }
-
-  public String getScope() {
-    return scope;
-  }
-
-  public void setScope(String scope) {
-    this.scope = scope;
-  }
-
-  public String getError() {
-    return error;
-  }
-
-  public void setError(String error) {
-    this.error = error;
-  }
-
-  public String getErrorDescription() {
-    return errorDescription;
-  }
-
-  public void setErrorDescription(String errorDescription) {
-    this.errorDescription = errorDescription;
-  }
 
   @Override
   public String toString() {

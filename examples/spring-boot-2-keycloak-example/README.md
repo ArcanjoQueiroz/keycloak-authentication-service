@@ -18,7 +18,7 @@ In the *examples/docker-compose* directory type:
 $ docker-compose up oracle
 ```
 
-In order to start the Oracle XE Database for this example. Start the Keycloak typing:
+In order to start the *Oracle XE* Database for this example. Start the *Keycloak* typing:
 
 ```sh
 $ docker-compose up keycloak
@@ -32,7 +32,7 @@ Access the **Keycloak Administration Console** through this [link](http://localh
 
 ### Create a Realm
 
-The master Realm is the Keycloak default management realm and you cannot use this realm for your application. Create a new Realm called test clicking on **Add Realm** button.
+The master Realm is the Keycloak default management realm and you **cannot** use this realm for your application. Create a new Realm called *test* clicking on **Add Realm** button.
 
 ### Creating a Client ID
 
@@ -69,6 +69,27 @@ Claim JSON Type: String
 Multivalued: On
 ```
 
+### Configuring User Attributes
+
+Select your *Client Id in Clients > [client id]*, then select Mappers tab. In order to create a new *Protocol* Mapper, click on *Create* button.
+Type the protocol *Name* and select *User Attribute* in *Mapper Type* field. Now you need to type the user attribute name in User Attribute field and the Token Claim Name along with the *Claim JSON Type field*. See:
+
+```
+Name: companyId
+Mapper Type: User Attribute
+User Attribute: companyId
+Token Claim Name: companyId
+Claim JSON Type: long
+Add to ID token: OFF
+Add to access token: ON
+Add to userinfo: ON
+Multivalued: OFF
+Aggregate attribute values: OFF
+```
+
+Then click on *Save* button.
+
+
 ### User federation
 
 In order to read the users through the SPI you have to configure the user storage provider through Configure > User Federation. 
@@ -99,3 +120,7 @@ or:
 ```sh
 APP_OAUTH2_CLIENT_ID=service-client-id APP_OAUTH2_CLIENT_SECRET=3f8fa682-041e-4f41-a263-025b813fb219 mvn clean install spring-boot:run
 ```
+
+## Importing realm file
+
+You can import all realm configurations through *Manage > Import* option inside Keycloak Admin Console. There is a file in *examples/config/realm-test-export.json* with an example of *Partial Import*.

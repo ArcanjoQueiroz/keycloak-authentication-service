@@ -1,12 +1,12 @@
 #!/bin/bash
 if [ -z "${REALM}" ]; then
-    REALM=master
+    REALM=test
 fi
 if [ -z "${CLIENT_ID}" ]; then
     CLIENT_ID=test
 fi
 if [ -z "${CLIENT_SECRET}" ]; then
-    CLIENT_SECRET=08d355bb-463d-4d18-b69e-a1ec1cb7ed11
+    CLIENT_SECRET=b6f9cf49-6d4b-47d7-803b-dd81072dbcb5
 fi
 if [ -z "${USERNAME}" ]; then
     USERNAME=alexandre

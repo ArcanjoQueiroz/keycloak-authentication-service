@@ -3,6 +3,7 @@ package br.com.alexandre.auth;
 import br.com.alexandre.auth.domain.AuthenticationService;
 import br.com.alexandre.auth.domain.User;
 import br.com.alexandre.auth.domain.UserDetailsService;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import java.util.List;
 import java.util.Map;
@@ -78,13 +79,28 @@ public class OAuth2AuthenticationService extends AbstractAuthenticationService
       logger.info("User: '{}'", userName);
     }
 
-    final User user = new User(null, userName, givenName, familyName, email, roles);
+    final User user = new User(null, userName, givenName, familyName, email, roles, 
+        getAsLong(claims, "companyId"));
     user.setJti(jti);
     user.setAzp(azp);
+    
+    logger.info("User: '{}'", user);
     
     return user;
   }
 
+  private Long getAsLong(final Map<String, Object> claims, final String name) {
+    Preconditions.checkArgument(claims != null);
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+    final Object object = claims.get(name);
+    if (object == null) {
+      return null;
+    }
+    return (object instanceof Number)
+        ? ((Number) object).longValue()
+        : Long.parseLong(object.toString());
+  }
+  
   private OAuth2AuthenticationDetails getAuthenticationDetails() {
     return (OAuth2AuthenticationDetails)
         SecurityContextHolder.getContext().getAuthentication().getDetails();
