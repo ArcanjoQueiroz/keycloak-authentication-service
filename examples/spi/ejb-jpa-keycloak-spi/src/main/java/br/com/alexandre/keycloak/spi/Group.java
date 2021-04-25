@@ -32,4 +32,7 @@ public class Group implements Serializable {
 
   @Column(name = "NAME", length = 30, nullable = false, insertable = false, updatable = false)
   private String name;
+  
+  @Column(name = "GROUP_ID", length = 48)
+  private String groupId;
 }

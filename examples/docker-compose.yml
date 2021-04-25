@@ -29,11 +29,12 @@ services:
           WAIT_HOST_CONNECT_TIMEOUT: 30     
         command: sh -c "/wait && liquibase 
           --driver=oracle.jdbc.driver.OracleDriver 
+          --logLevel=DEBUG 
           --classpath=/liquibase/changelog:/liquibase/jdbc/ojdbc7.jar 
           --url=jdbc:oracle:thin:@oracle:1521/xe 
           --changeLogFile=changelog.xml 
-          --username=system 
-          --password=oracle migrate"
+          --username=keycloak 
+          --password=keycloak migrate"
 
     keycloak:
         image: authentication-service:latest
@@ -52,8 +53,8 @@ services:
           DB_HOST: 'oracle'
           DB_PORT: 1521
           DB_DATABASE: 'xe'
-          DB_USER: 'system'
-          DB_PASSWORD: 'oracle'
+          DB_USER: 'keycloak'
+          DB_PASSWORD: 'keycloak'
           TZ: GMT
           KEYCLOAK_IMPORT: "/tmp/keycloak/realm-test-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
 
