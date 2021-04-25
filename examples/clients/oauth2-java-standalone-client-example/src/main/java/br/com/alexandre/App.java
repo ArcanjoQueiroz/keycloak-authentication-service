@@ -20,7 +20,7 @@ public class App {
       "http://localhost:9999/auth/realms/test/protocol/openid-connect/token");
   private static final String CLIENT_ID = System.getProperty("client_id", "test");  
   private static final String CLIENT_SECRET = System.getProperty("client_secret", 
-      "b6f9cf49-6d4b-47d7-803b-dd81072dbcb5");
+      "a167e1f1-870d-4926-89d8-738a8d214817");
 
   private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 

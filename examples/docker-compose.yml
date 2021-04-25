@@ -41,6 +41,8 @@ services:
         ports:
           - "9999:8080"
           - "8787:8787"
+        volumes:
+          - ./keycloak:/tmp/keycloak:ro          
         environment:
           JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n -Djava.net.preferIPv4Stack=true'
           KEYCLOAK_USER: 'admin'
@@ -53,6 +55,7 @@ services:
           DB_USER: 'system'
           DB_PASSWORD: 'oracle'
           TZ: GMT
+          KEYCLOAK_IMPORT: "/tmp/keycloak/realm-test-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
 
 volumes:
   oracle-storage:

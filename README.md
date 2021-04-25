@@ -36,8 +36,6 @@ To compile the examples, run the *build.sh* script:
 
 You can access the *Administration Console* through this [link](http://localhost:9999/auth).
 
-You could import the *examples/config/realm-test-export.json* in your Keycloak *test* realm.
-
 ## Licensing
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
