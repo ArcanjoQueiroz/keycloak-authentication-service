@@ -26,9 +26,17 @@ The Keycloak run on port *9999* and the debug port is *8787*. The Oracle XE Data
 
 The installation of *Docker* and *Docker-Compose* is necessary in order to run the examples in your operating system.
 
+To compile the examples, run the script *build.sh*:
+
+```sh
+./build.sh
+```
+
 ## Administration Console
 
 You can access the *Administration Console* through this [link](http://localhost:9999/auth).
+
+You could import the *examples/config/realm-test-export.json* in your Keycloak *test* realm.
 
 ## Licensing
 
