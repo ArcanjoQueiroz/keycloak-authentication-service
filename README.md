@@ -2,15 +2,23 @@
 
 [![Build Status](https://travis-ci.com/arcanjoaq/keycloak-authentication-service.svg?branch=master)](https://travis-ci.com/arcanjoaq/keycloak-authentication-service)
 
-OAuth2 Authentication Service using JBoss Keycloak 12.0.4 + Legacy Authentication SPI using EJB 3 and JPA 2 + Oracle DB Support.
+OAuth2/OpenID Connect Authentication Service using JBoss Keycloak 12.0.4 + Legacy Authentication SPI using EJB 3 and JPA 2 + Oracle DB Support.
 
-This is an Authentication Service built using **JBoss Keycloak** and with **Oracle 11g database** support. Furthermore, there is an implementation of **Service Provider Interface (SPI)** in order to allow the authentication through legacy authentication database tables structure.
+This is an OAuth 2.0/OpenID Connect Server built using **JBoss Keycloak** and **Oracle 11g**. There is an implementation of a **Service Provider Interface (SPI)** to allow the authentication through legacy user database tables.
 
-The SPI example was built using **EJB 3**, **JPA (Hibernate)** and **JBoss Logging** support. You can access the source code (Maven) in the *spi* directory.
+The *SPI* example was built using **EJB 3**, **JPA (Hibernate)** and **JBoss Logging**. You can access the source code (Maven) inside *spi* directory.
+
+## Building
+
+To compile the examples, run *build.sh* script:
+
+```sh
+./build.sh
+```
 
 ## Running the example
 
-Inside the directory *examples*, create *Docker Storage*:
+Inside the directory *examples*, run *create-storage.sh* to create the necessary *Docker Storage*:
 
 ```sh
 ./create-storage.sh
@@ -19,18 +27,12 @@ Inside the directory *examples*, create *Docker Storage*:
 And:
 
 ```sh
-docker-compose up
+docker-compose up # or docker-compose up oracle liquibase keycloak
 ```
 
-The Keycloak run on port *9999* and the debug port is *8787*. The Oracle XE Database uses the default port (*1521*) and *8080* (Apex).
+Keycloak runs on port *9999* and the debug port is *8787*. Oracle XE Database uses default ports *1521* and *8080* (Apex).
 
-The installation of *Docker* and *Docker-Compose* is necessary in order to run the examples in your operating system.
-
-To compile the examples, run the *build.sh* script:
-
-```sh
-./build.sh
-```
+*Docker* and *Docker-Compose* are mandatory in order to run the examples in your operating system.
 
 ## Administration Console
 
