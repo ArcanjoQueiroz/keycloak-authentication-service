@@ -26,7 +26,7 @@ The Keycloak run on port *9999* and the debug port is *8787*. The Oracle XE Data
 
 The installation of *Docker* and *Docker-Compose* is necessary in order to run the examples in your operating system.
 
-To compile the examples, run the script *build.sh*:
+To compile the examples, run the *build.sh* script:
 
 ```sh
 ./build.sh
