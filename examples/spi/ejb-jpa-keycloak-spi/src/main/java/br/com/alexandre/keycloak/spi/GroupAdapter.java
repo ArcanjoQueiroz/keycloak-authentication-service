@@ -9,6 +9,7 @@ import org.keycloak.models.ClientModel;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.RoleModel;
 
+@lombok.ToString
 @lombok.EqualsAndHashCode(of = { "group" })
 public class GroupAdapter implements GroupModel {
 

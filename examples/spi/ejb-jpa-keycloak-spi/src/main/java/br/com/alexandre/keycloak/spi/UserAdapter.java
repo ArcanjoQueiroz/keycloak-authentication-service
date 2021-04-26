@@ -12,7 +12,6 @@ import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
-import com.google.common.base.Strings;
 import br.com.alexandre.keycloak.spi.base.AbstractUserAdapter;
 
 @lombok.ToString
@@ -100,7 +99,7 @@ public class UserAdapter extends AbstractUserAdapter {
   protected Set<GroupModel> getGroupsInternal() {
     return this.groups.stream()
         .map(g -> new GroupAdapter(g))
-        .filter(ga -> !Strings.isNullOrEmpty(ga.getId()))
+        .filter(ga -> ga.getId() != null)
         .collect(Collectors.toSet());
   }
   
