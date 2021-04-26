@@ -31,7 +31,6 @@
 			<version>1.18.20</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-core</artifactId>

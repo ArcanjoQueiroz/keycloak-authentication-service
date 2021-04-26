@@ -12,14 +12,16 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import br.com.alexandre.client.oauth2.OAuth2KeycloakHttpRequestInterceptor;
 
 public class App {
-  private static final String SERVICE_URL = System.getProperty("service_url", "http://localhost:9090/hi");  
-  private static final String ACCESS_TOKEN_URI = System.getProperty("access_token_uri", 
+  private static final String SERVICE_URL = getEnv("service_url", "http://localhost:9090/hi");  
+  private static final String ACCESS_TOKEN_URI = getEnv("access_token_uri", 
       "http://localhost:9999/auth/realms/test/protocol/openid-connect/token");
-  private static final String CLIENT_ID = System.getProperty("client_id", "test");  
-  private static final String CLIENT_SECRET = System.getProperty("client_secret", 
+  private static final String CLIENT_ID = getEnv("client_id", "test");  
+  private static final String CLIENT_SECRET = getEnv("client_secret", 
       "a167e1f1-870d-4926-89d8-738a8d214817");
 
   private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
@@ -59,5 +61,18 @@ public class App {
     } catch (final IOException e) {
       throw new RuntimeException(e);
     }
+  }
+  
+  private static String getEnv(final String key, final String defaultValue) {
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(key));
+    String e = System.getenv(key);
+    if (Strings.isNullOrEmpty(e)) {
+      String replaceAll = key.toUpperCase().replaceAll("\\.", "_");
+      e = System.getenv(replaceAll);
+    }
+    if (Strings.isNullOrEmpty(e)) {
+      e = System.getProperty(key, defaultValue);
+    }
+    return e;
   }
 }

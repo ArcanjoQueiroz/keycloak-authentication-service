@@ -34,6 +34,12 @@ Keycloak runs on port *9999* and the debug port is *8787*. Oracle XE Database us
 
 *Docker* and *Docker-Compose* are mandatory in order to run the examples in your operating system.
 
+You could export the current client secret for all examples this way:
+
+```sh
+export CLIENT_SECRET=e35eda8f-c923-4735-a2ba-f869a925e071
+```
+
 ## Administration Console
 
 You can access the *Administration Console* through this [link](http://localhost:9999/auth).
