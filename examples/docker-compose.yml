@@ -2,8 +2,8 @@ version: '2.1'
 services:
     oracle:
         image: orangehrm/oracle-xe-11g:latest
-        hostname: "oracle"
         container_name: oracle
+        hostname: "oracle"        
         volumes:
             - ./local-initdb:/etc/entrypoint-initdb.d
             - oracle-storage:/usr/lib/oracle/xe/oradata/XE
@@ -14,8 +14,8 @@ services:
 
     liquibase:
         build: ./liquibase
-        hostname: liquibase
         container_name: liquibase
+        hostname: liquibase        
         depends_on: 
             - oracle
         volumes:
@@ -38,7 +38,8 @@ services:
 
     keycloak:
         image: authentication-service:latest
-        container_name: keycloak_server
+        container_name: keycloak
+        hostname: keycloak
         ports:
           - "9999:8080"
           - "8787:8787"
@@ -58,6 +59,34 @@ services:
           TZ: GMT
           KEYCLOAK_IMPORT: "/tmp/keycloak/realm-test-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
 
+    app:
+        image: arcanjoqueiroz/spring-boot-2-keycloak-example:1.0.0
+        container_name: app
+        hostname: app
+        ports:
+          - "9090:9090"
+        environment:
+          APP_OAUTH2_EXTERNAL_URL: 'http://localhost:9999/auth'
+          APP_OAUTH2_BASE_URL: 'http://keycloak:8080/auth'
+          APP_OAUTH2_CLIENT_ID: 'test'
+          APP_OAUTH2_CLIENT_SECRET: '9310a2f5-3625-4833-aa4b-2f38d0840674'
+          APP_OAUTH2_REALM: 'test'
+
+    client:
+        image: arcanjoqueiroz/oauth2-spring-client-example:1.0.0
+        container_name: client
+        hostname: client
+        ports:
+          - "9091:9091"
+        depends_on: 
+            - app          
+        environment:
+          APP_OAUTH2_EXTERNAL_URL: 'http://localhost:9999/auth'
+          APP_OAUTH2_BASE_URL: 'http://keycloak:8080/auth'
+          APP_OAUTH2_CLIENT_ID: 'test'
+          APP_OAUTH2_CLIENT_SECRET: '9310a2f5-3625-4833-aa4b-2f38d0840674'
+          APP_OAUTH2_REALM: 'test'
+          SERVICE_BASE_URL: 'http://app:9090'
 volumes:
   oracle-storage:
     external: true

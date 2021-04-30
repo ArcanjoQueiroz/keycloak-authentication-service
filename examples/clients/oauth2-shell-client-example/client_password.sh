@@ -17,12 +17,15 @@ fi
 if [ -z "${AUTH_SERVER_BASE_URL}" ]; then
     AUTH_SERVER_BASE_URL=http://localhost:9999/auth
 fi
+if [ -z "${SERVICE_BASE_URL}" ]; then
+    SERVICE_BASE_URL=http://localhost:9090
+fi
 
 set -x
 
 # Direct Access Grants Enabled: On
 function getAccessTokenByPassword() {
-    OAUTH2_RESPONSE=$(curl -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token \
+    OAUTH2_RESPONSE=$(curl -vv -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -H "cache-control: no-cache" \
         -d "client_id=$CLIENT_ID" \
@@ -41,4 +44,4 @@ function getAccessTokenByPassword() {
 
 getAccessTokenByPassword
 
-curl -s -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:9090/hi
+curl -vv -s -H "Authorization: Bearer $ACCESS_TOKEN" ${SERVICE_BASE_URL}/hi

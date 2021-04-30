@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "eslint": "./node_modules/.bin/eslint .",
+    "docker": "docker build -t arcanjoqueiroz/oauth2-node-client-example:$npm_package_version .",
     "fix": "./node_modules/.bin/eslint . --fix"
   },
-  "type": "module",  
+  "type": "module",
   "keywords": [
     "Node",
     "OAuth2",

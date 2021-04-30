@@ -10,6 +10,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 client_id=os.getenv('CLIENT_ID', 'test')
 client_secret=os.getenv('CLIENT_SECRET', 'a167e1f1-870d-4926-89d8-738a8d214817')
 access_token_uri=os.getenv('ACCESS_TOKEN_URI', 'http://localhost:9999/auth/realms/test/protocol/openid-connect/token')
+service_base_url=os.getenv('SERVICE_BASE_URL', 'http://localhost:9091')
 scopes=['profile']
 
 class OAuth2Client:
@@ -53,10 +54,10 @@ if __name__ == '__main__':
     print(f"Client ID: {session.client_id}")
     print(f"Access Token: {session.access_token}")
 
-    response = session.get('http://localhost:9091/consume')
+    response = session.get(f"{service_base_url}/consume")
     print_response(response)
 
-    response = session.get('http://localhost:9091/hi')
+    response = session.get(f"{service_base_url}/hi")
     print_response(response)
 
 

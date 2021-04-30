@@ -1,0 +1,16 @@
+build
+dist
+*.egg_info
+Dockerfile
+Makefile
+*.md
+setup.py
+.venv
+.pytest_cache
+.eggs
+.gitignore
+.git
+.cache
+__pycache__
+**/__pycache__
+env

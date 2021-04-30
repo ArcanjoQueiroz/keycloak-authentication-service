@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.alexandre</groupId>
-	<artifactId>oauth2-client-example</artifactId>
+	<artifactId>oauth2-spring-client-example</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>OAuth2 Client Example</name>
 	<description>OAuth2 Client Example</description>
@@ -58,6 +58,17 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!-- Jaxb -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -73,11 +84,13 @@
 
 	<build>
 		<plugins>
+			<!-- Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<!-- Compile -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -88,6 +101,22 @@
 				</configuration>
 			</plugin>
 
+			<!-- Dockerfile Maven Plugin -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<configuration>
+					<repository>arcanjoqueiroz/oauth2-spring-client-example</repository>
+					<tag>1.0.0</tag>
+					<verbose>true</verbose>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
+
+			<!-- Checkstyle -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -113,6 +142,7 @@
 				</executions>
 			</plugin>
 
+			<!-- PMD -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>

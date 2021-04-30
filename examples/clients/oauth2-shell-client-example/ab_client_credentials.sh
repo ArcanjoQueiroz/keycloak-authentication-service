@@ -15,6 +15,14 @@ if [ -z "${SERVICE_BASE_URL}" ]; then
     SERVICE_BASE_URL=http://localhost:9091
 fi
 
+if [ -z "${REQUEST_NUMBER}" ]; then
+    REQUEST_NUMBER=10000
+fi
+
+if [ -z "${CONCURRENCY_LEVEL}" ]; then
+    CONCURRENCY_LEVEL=100
+fi
+
 set -x
 
 # Direct Access Grants Enabled: On
@@ -36,7 +44,7 @@ function getAccessTokenByClientCredentials() {
 
 getAccessTokenByClientCredentials
 
-curl -vv -s -H "Authorization: Bearer $ACCESS_TOKEN" ${SERVICE_BASE_URL}/hi
+ab -m GET -n ${REQUEST_NUMBER} -c ${CONCURRENCY_LEVEL} -H "Authorization: Bearer $ACCESS_TOKEN" ${SERVICE_BASE_URL}/hi
 
-curl -vv -s -H "Authorization: Bearer $ACCESS_TOKEN" ${SERVICE_BASE_URL}/consume
+ab -m GET -n ${REQUEST_NUMBER} -c ${CONCURRENCY_LEVEL} -H "Authorization: Bearer $ACCESS_TOKEN" ${SERVICE_BASE_URL}/consume
 

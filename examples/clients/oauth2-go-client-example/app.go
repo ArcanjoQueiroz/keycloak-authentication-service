@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-
+	"fmt"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
@@ -35,7 +35,11 @@ func main() {
 
 	client := config.Client(ctx)
 
-	token, err := passwordConfig.PasswordCredentialsToken(ctx, "alexandre", "foo")
+	username := getEnv("USERNAME", "alexandre")
+
+	password := getEnv("PASSWORD", "foo")
+
+	token, err := passwordConfig.PasswordCredentialsToken(ctx, username, password)
 	if err != nil {
 		panic(err)
 	} else {
@@ -48,14 +52,16 @@ func main() {
 }
 
 func request(client *http.Client) {
-	resp, err := client.Get("http://localhost:9091/consume")
+	baseurl := getEnv("SERVICE_BASE_URL", "http://localhost:9091")
+
+	resp, err := client.Get(fmt.Sprintf("%s/consume", baseurl))
 	if err != nil {
 		panic(err)
 	} else {
 		PrintResponse(resp)
 	}
 
-	resp, err = client.Get("http://localhost:9091/hi")
+	resp, err = client.Get(fmt.Sprintf("%s/hi", baseurl))
 	if err != nil {
 		panic(err)
 	} else {

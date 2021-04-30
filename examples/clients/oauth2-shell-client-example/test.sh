@@ -22,7 +22,7 @@ set -x
 
 # Direct Access Grants Enabled: On
 function getAccessToken() {
-    OAUTH2_RESPONSE=$(curl -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token \
+    OAUTH2_RESPONSE=$(curl -vv -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -H "cache-control: no-cache" \
         -d "client_id=$CLIENT_ID" \
@@ -40,11 +40,11 @@ function getAccessToken() {
 }
 
 function getUserInfo() {
-    curl -s -H "Authorization: Bearer $ACCESS_TOKEN" ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/userinfo | jq .
+    curl -vv -s -H "Authorization: Bearer $ACCESS_TOKEN" ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/userinfo | jq .
 }
 
 function instrospectAccessToken() {
-    curl -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token/introspect \
+    curl -vv -s -X POST ${AUTH_SERVER_BASE_URL}/realms/${REALM}/protocol/openid-connect/token/introspect \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -H "cache-control: no-cache" \
         -d "client_id=$CLIENT_ID" \
