@@ -25,14 +25,12 @@ public class StandaloneUserStorageProviderFactory
   
   private HikariDataSource dataSource;
 
-  private Scope config;
-
   @Override
   public void init(final Scope config) {
-    this.config = config;
+    configure(config);
   }
 
-  private synchronized void init() {
+  private synchronized void configure(final Scope config) {
     final DataSourceProperties properties = DataSourceProperties.builder()
         .driverClassName(config.get("driverClassName", "org.h2.Driver"))
         .url(config.get("url", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=true;"))
@@ -53,14 +51,11 @@ public class StandaloneUserStorageProviderFactory
   
   @Override
   public StandaloneUserStorageProvider create(KeycloakSession session, ComponentModel model) {
-    StandaloneUserStorageProvider storageProvider;
     LOGGER.info("Creating User Storage Provider...");
-    
-    init();
-
     final UserRepository userRepository = new UserRepository(entityManagerFactory);
 
-    storageProvider = new StandaloneUserStorageProvider(session, model, userRepository);
+    final StandaloneUserStorageProvider storageProvider = 
+        new StandaloneUserStorageProvider(session, model, userRepository);
 
     LOGGER.info("Created User Storage Provider...");
     return storageProvider;
