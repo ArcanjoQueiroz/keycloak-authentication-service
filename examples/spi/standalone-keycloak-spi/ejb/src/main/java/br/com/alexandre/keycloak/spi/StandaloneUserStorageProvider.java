@@ -20,14 +20,17 @@ import org.keycloak.models.cache.CachedUserModel;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.storage.StorageId;
 import br.com.alexandre.keycloak.spi.base.AbstractUserStorageProvider;
+import br.com.alexandre.keycloak.spi.domain.User;
+import br.com.alexandre.keycloak.spi.domain.UserAdapter;
+import br.com.alexandre.keycloak.spi.domain.UserRepository;
 
-public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
+public class StandaloneUserStorageProvider extends AbstractUserStorageProvider {
 
   private static final String USERS_QUERY_SEARCH = "keycloak.session.realm.users.query.search";
 
   private static final String ADMIN = "admin";
 
-  private static final Logger LOGGER = Logger.getLogger(EjbJpaUserStorageProvider.class);
+  private static final Logger LOGGER = Logger.getLogger(StandaloneUserStorageProvider.class);
 
   private final KeycloakSession session;
   private final ComponentModel model;
@@ -35,7 +38,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
 
   public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
 
-  public EjbJpaUserStorageProvider(
+  public StandaloneUserStorageProvider(
       final KeycloakSession session,
       final ComponentModel model,
       final UserRepository userRepository) {
@@ -108,7 +111,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public List<UserModel> getUsers(final RealmModel realm) {
     final List<UserModel> users =
         this.userRepository.findAll().stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return users;
@@ -119,7 +122,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       final RealmModel realm, final int firstResult, final int maxResults) {
     final List<UserModel> users =
         this.userRepository.findAll(firstResult, maxResults).stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return users;
@@ -136,7 +139,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       users = this.userRepository.findAllByUsernameOrEmail(search, firstResult, maxResults);
     }    
     final List<UserModel> usersModel = users.stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return usersModel;  
@@ -152,7 +155,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       users = this.userRepository.findAllByUsernameOrEmail(search);
     }    
     final List<UserModel> usersModel = users.stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return usersModel;  
@@ -162,7 +165,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
   public List<UserModel> searchForUser(final String search, final RealmModel realm) {
     final List<UserModel> users =
         this.userRepository.findAllByUsernameOrEmail(search).stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return users;
@@ -173,7 +176,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       final String search, final RealmModel realm, final int firstResult, final int maxResults) {
     final List<UserModel> users =
         this.userRepository.findAllByUsernameOrEmail(search, firstResult, maxResults).stream()
-        .map(user -> new UserAdapter(session, realm, model, user, user.getGroups()))
+        .map(user -> new UserAdapter(session, realm, model, user))
         .collect(Collectors.toList());
     LOGGER.info("Returned " + users.size() + " users");
     return users;
@@ -190,7 +193,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     } else {
       LOGGER.info("User " + user.getUsername() + " found by id " + externalId);
 
-      return new UserAdapter(session, realm, model, user, user.getGroups());
+      return new UserAdapter(session, realm, model, user);
     }
   }
 
@@ -203,7 +206,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     } else {
       LOGGER.info("User " + user.getUsername() + " found by username " + username);
 
-      return new UserAdapter(session, realm, model, user, user.getGroups());
+      return new UserAdapter(session, realm, model, user);
     }
   }
 
@@ -216,7 +219,7 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
     } else {
       LOGGER.info("User " + user.getUsername() + " found by email " + email);
 
-      return new UserAdapter(session, realm, model, user, user.getGroups());
+      return new UserAdapter(session, realm, model, user);
     }
   }
 
@@ -267,15 +270,15 @@ public class EjbJpaUserStorageProvider extends AbstractUserStorageProvider {
       return Collections.emptySet();
     }
   }
-  
-  private UserAdapter getUserAdapter(final UserModel user) {
+
+  protected UserAdapter getUserAdapter(final UserModel user) {
     return (user instanceof CachedUserModel)
         ? (UserAdapter) ((CachedUserModel) user).getDelegateForUpdate()
         : (UserAdapter) user;
   }
-
+  
   @Override
   public void close() {
-    LOGGER.debug("Closing " + EjbJpaUserStorageProvider.class.getSimpleName() + "...");
+    LOGGER.debug("Closing " + StandaloneUserStorageProvider.class.getSimpleName() + "...");
   }
 }

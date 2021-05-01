@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.com.alexandre</groupId>
+	<artifactId>standalone-keycloak-spi</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>ear-keycloak-spi</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<keycloak.version>12.0.4</keycloak.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.13.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.20</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-core</artifactId>
+				<scope>provided</scope>
+				<version>${keycloak.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-services</artifactId>
+				<scope>provided</scope>
+				<version>${keycloak.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-server-spi</artifactId>
+				<scope>provided</scope>
+				<version>${keycloak.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-server-spi-private</artifactId>
+				<scope>provided</scope>
+				<version>${keycloak.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-model-jpa</artifactId>
+				<scope>provided</scope>
+				<version>${keycloak.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec.javax.ejb</groupId>
+				<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+				<version>1.0.0.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- H2 -->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.200</version>
+				<scope>runtime</scope>
+			</dependency>
+
+
+			<!-- HikariCP -->
+			<dependency>
+				<groupId>com.zaxxer</groupId>
+				<artifactId>HikariCP</artifactId>
+				<version>4.0.3</version>
+			</dependency>
+
+			<!-- Guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>30.1.1-jre</version>
+			</dependency>
+
+			<!-- Hibernate Core -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>5.3.20.Final</version>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>checkstyle</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Maven Checkstyle Plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>3.1.0</version>
+						<configuration>
+							<configLocation>checkstyle.xml</configLocation>
+							<failsOnError>true</failsOnError>
+							<violationSeverity>info</violationSeverity>
+							<logViolationsToConsole>true</logViolationsToConsole>
+							<sourceDirectories>
+								<sourceDirectory>src/main/java</sourceDirectory>
+							</sourceDirectories>
+							<testSourceDirectories>
+								<testSourceDirectory>src/test/java</testSourceDirectory>
+							</testSourceDirectories>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- Maven PMD Plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>3.14.0</version>
+						<configuration>
+							<linkXref>true</linkXref>
+							<sourceEncoding>utf-8</sourceEncoding>
+							<rulesets>
+								<ruleset>${project.basedir}/../ruleset.xml</ruleset>
+							</rulesets>
+							<verbose>true</verbose>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+	<modules>
+		<module>ear</module>
+		<module>war</module>
+		<module>ejb</module>
+	</modules>
+</project>

@@ -6,6 +6,8 @@ SCRIPT_PATH=$(dirname "$SCRIPT")
 
 cd ${SCRIPT_PATH}/spi/ejb-jpa-keycloak-spi && mvn clean install
 
+cd ${SCRIPT_PATH}/spi/standalone-keycloak-spi && mvn clean install
+
 # Clients
 
 cd ${SCRIPT_PATH}/clients/oauth2-spring-client-example && mvn clean install dockerfile:build

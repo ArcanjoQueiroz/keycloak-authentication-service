@@ -28,6 +28,7 @@ RUN chmod u+x ${TOOLS_HOME}/docker-entrypoint.sh
 
 # Adding SPIs
 ADD examples/spi/ejb-jpa-keycloak-spi/target/ejb-jpa-keycloak-spi.jar ${JBOSS_HOME}/standalone/deployments
+ADD examples/spi/standalone-keycloak-spi/ear/target/standalone-keycloak-spi.ear ${JBOSS_HOME}/standalone/deployments
 
 EXPOSE 8080
 EXPOSE 8787
