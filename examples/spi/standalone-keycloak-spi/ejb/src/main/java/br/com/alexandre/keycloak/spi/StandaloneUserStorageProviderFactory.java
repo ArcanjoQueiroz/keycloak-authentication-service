@@ -8,6 +8,7 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.storage.UserStorageProviderFactory;
 import com.zaxxer.hikari.HikariDataSource;
+import br.com.alexandre.keycloak.spi.base.EnvVarScopeDecorator;
 import br.com.alexandre.keycloak.spi.domain.User;
 import br.com.alexandre.keycloak.spi.domain.UserRepository;
 import br.com.alexandre.keycloak.spi.infrastructure.DataSourceProperties;
@@ -27,7 +28,7 @@ public class StandaloneUserStorageProviderFactory
 
   @Override
   public void init(final Scope config) {
-    configure(config);
+    configure(new EnvVarScopeDecorator(config));
   }
 
   private synchronized void configure(final Scope config) {
