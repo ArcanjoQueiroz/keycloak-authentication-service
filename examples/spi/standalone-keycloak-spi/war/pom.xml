@@ -31,14 +31,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>compile</scope>
 		</dependency>
-
-		<!-- Modules -->
-		<dependency>
-			<groupId>br.com.alexandre</groupId>
-			<artifactId>ear-keycloak-spi-jar</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
 	</dependencies>
 
 </project>
