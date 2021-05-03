@@ -1,7 +1,7 @@
 package br.com.alexandre.keycloak.spi.base;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import org.keycloak.Config.Scope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,12 +106,12 @@ public class EnvVarScopeDecorator implements Scope {
   }
 
   protected String getValue(final String key) {
-    final List<String> candidates = new ArrayList<>();
+    final Set<String> candidates = new HashSet<>();
     candidates.add(toEnvVariable(getPrefix() + key));
     candidates.add(camelCaseToEnvVariable(getPrefix() + key));
     
     for (final String candidate : candidates) {
-      LOGGER.debug("Retrieving from env {}...", candidate);
+      LOGGER.info("Retrieving from env {}...", candidate);
       final String getenv = System.getenv(candidate);
       if (getenv != null) {
         return getenv;
@@ -144,6 +144,6 @@ public class EnvVarScopeDecorator implements Scope {
   }
   
   private String getPrefix() {
-    return Strings.isNullOrEmpty(prefix) ? "" : prefix + ".";
+    return Strings.isNullOrEmpty(prefix) ? "" : prefix.toLowerCase() + ".";
   }
 }
