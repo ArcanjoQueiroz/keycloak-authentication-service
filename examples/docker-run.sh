@@ -49,7 +49,7 @@ docker run --rm --name shell-client-test \
 	-e PASSWORD='foo' \
 	-it arcanjoqueiroz/oauth2-shell-client-example:1.0.0 sh test.sh
 
-docker run --rm --name shell-client-client-password \
+docker run --rm --name shell-client-password \
 	-e CLIENT_ID=$CLIENT_ID \
 	-e CLIENT_SECRET=$CLIENT_SECRET \
 	-e REALM=$REALM \
@@ -57,7 +57,7 @@ docker run --rm --name shell-client-client-password \
 	-e USERNAME='alexandre' \
 	-e PASSWORD='foo' \
 	-e SERVICE_BASE_URL='http://172.17.0.1:9091' \
-	-it arcanjoqueiroz/oauth2-shell-client-example:1.0.0 sh client_password.sh
+	-it arcanjoqueiroz/oauth2-shell-client-example:1.0.0 sh password.sh
 
 docker run --rm --name shell-client-client-credentials \
 	-e CLIENT_ID=$CLIENT_ID \
