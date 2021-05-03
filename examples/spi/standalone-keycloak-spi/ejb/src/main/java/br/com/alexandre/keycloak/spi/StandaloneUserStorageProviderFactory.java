@@ -18,6 +18,8 @@ import br.com.alexandre.keycloak.spi.infrastructure.PersistenceUnitBuilder;
 public class StandaloneUserStorageProviderFactory
     implements UserStorageProviderFactory<StandaloneUserStorageProvider> {
 
+  private static final String USER_STORAGE_ENV_VAR_PREFIX = "STANDALONE_SPI";
+
   private static final String USER_STORAGE_FACTORY_NAME = "standalone-keycloak-spi";
 
   private static final Logger LOGGER = Logger.getLogger(StandaloneUserStorageProviderFactory.class);
@@ -28,7 +30,7 @@ public class StandaloneUserStorageProviderFactory
 
   @Override
   public void init(final Scope config) {
-    configure(new EnvVarScopeDecorator(config));
+    configure(new EnvVarScopeDecorator(USER_STORAGE_ENV_VAR_PREFIX, config));
   }
 
   private synchronized void configure(final Scope config) {
