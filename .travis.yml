@@ -2,5 +2,5 @@ language: java
 jdk: openjdk12
 services:
   - docker
-script: ./build.sh
+script: ./build-java.sh
 
