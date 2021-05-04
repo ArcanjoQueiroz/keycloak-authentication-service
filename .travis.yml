@@ -16,3 +16,8 @@ matrix:
       go:
         - "1.16"
       script: ./build-go.sh
+
+    - language: python
+      go:
+        - "3.8"
+      script: ./build-python.sh
