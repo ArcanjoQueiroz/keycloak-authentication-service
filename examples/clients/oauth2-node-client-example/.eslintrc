@@ -4,6 +4,7 @@
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
+	"sourceType": "module",
   },
   "rules": {
     "require-jsdoc": 0,
@@ -13,5 +14,4 @@
   "env": {
     "node": true
   }
-
 }

@@ -1,6 +1,18 @@
-language: java
-jdk: openjdk12
 services:
   - docker
-script: ./build-java.sh
 
+matrix:
+  include:
+    - language: java
+      jdk: openjdk12
+      script: ./build-java.sh
+
+    - language: node_js
+      node_js:
+        - "14"
+      script: ./build-node.sh
+  
+    - language: go
+      go:
+        - "1.16"
+      script: ./build-go.sh

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const authServerBaseUrl = process.env.AUTH_SERVER_BASE_URL || 'http://localhost:9999/auth';
-const realm =  process.env.REALM || 'test';
+const realm = process.env.REALM || 'test';
 const clientId = process.env.CLIENT_ID || 'test';
 const clientSecret = process.env.CLIENT_SECRET || 'a167e1f1-870d-4926-89d8-738a8d214817';
 const username = process.env.USERNAME || 'alexandre';
