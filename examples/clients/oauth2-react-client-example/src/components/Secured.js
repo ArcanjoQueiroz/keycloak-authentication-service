@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import Keycloak from 'keycloak-js';
 
-export default class Secured extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {keycloak: null, authenticated: false};
-  }
+const Secured = ({children}) => {
+  const [keycloak, setKeycloak] = useState(null);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  componentDidMount() {
+  useEffect(() => {
     const keycloak = Keycloak({
       url: '/auth',
       realm: 'test',
@@ -17,24 +16,29 @@ export default class Secured extends Component {
       flow: 'implicit',
       onLoad: 'login-required',
     }).then((authenticated) => {
-      this.setState({keycloak: keycloak, authenticated: authenticated});
+      setKeycloak(keycloak);
+      setAuthenticated(authenticated);
       if (authenticated) {
         window.accessToken = keycloak.token;
       }
     });
-  }
+  }, []);
 
-  render() {
-    if (this.state.keycloak) {
-      if (this.state.authenticated) {
-        return (<span>{this.props.children}</span>);
-      }
-      return (
-        <div>Unable to authenticate!</div>
-      );
+  if (keycloak) {
+    if (authenticated) {
+      return (<span>{children}</span>);
     }
     return (
-      <div>Initialising Keycloak...</div>
+      <div>Unable to authenticate!</div>
     );
   }
-}
+  return (
+    <div>Initialising Keycloak...</div>
+  );
+};
+
+Secured.propTypes = {
+  children: PropTypes.any,
+};
+
+export default Secured;
