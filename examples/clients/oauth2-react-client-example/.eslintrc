@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "google",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "require-jsdoc": 0,
+    "max-len": [2, 100, 4],
+    "new-cap": 0,
+    "global-require": "off"
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+        "version": "latest"
+    }
+  }
+}
