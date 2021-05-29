@@ -138,6 +138,8 @@ public class UserRepository {
     user.setUsername(username);
     user.setFirstName(username);
     user.setBlocked("N");
+    user.setCompanyId(0);
+    LOGGER.info("Saving user: " + user);
     em.persist(user);
 
     return user;

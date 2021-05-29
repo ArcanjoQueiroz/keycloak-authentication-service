@@ -5,14 +5,14 @@ matrix:
   include:
     - language: java
       jdk: openjdk12
-      script: ./build-java.sh
+      script: ./.build-java
 
     - language: node_js
       node_js:
         - "14"
-      script: ./build-node.sh
+      script: ./.build-node
   
     - language: python
       python:
         - "3.8"
-      script: ./build-python.sh
+      script: ./.build-python
