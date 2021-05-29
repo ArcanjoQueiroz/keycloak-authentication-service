@@ -71,4 +71,7 @@ public class User implements Serializable {
 
   @Column(name = "BLOCKED", length = 1, nullable = false)
   private String blocked;
+  
+  @Column(name = "COMPANY_ID", nullable = false)
+  private Integer companyId;
 }

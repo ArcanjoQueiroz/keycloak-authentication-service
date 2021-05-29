@@ -202,12 +202,13 @@ public class UserRepository {
     entityManager.getTransaction().begin();
     try {
       LOGGER.info("Saving user " + username + "...");
-
       final User user = new User();
       user.setUsername(username);
       user.setFirstName(username);
       user.setBlocked("N");
+      user.setCompanyId(0);
       entityManager.persist(user);
+      LOGGER.info("Saving user: " + user);
       entityManager.getTransaction().commit();
       return user;
     } catch (final RuntimeException e) {
