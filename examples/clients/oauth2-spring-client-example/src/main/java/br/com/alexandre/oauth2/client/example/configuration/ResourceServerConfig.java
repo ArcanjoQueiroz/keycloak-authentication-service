@@ -75,7 +75,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/swagger-ui.html",
             "/webjars/**",
             "/login",
-            "/logout")
+            "/logout",
+            "/actuator/**")
         .permitAll()
         .anyRequest()
         .authenticated();

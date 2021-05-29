@@ -52,24 +52,46 @@ public class UserRepository {
   }
 
   public User findUserByUsernameOrEmail(final String usernameOrEmail) {
-    return em.createNamedQuery("findByUsernameOrEmail", User.class)
-        .setParameter("search", usernameOrEmail != null ? usernameOrEmail.trim().toLowerCase() : "")
-        .setMaxResults(1)
-        .getSingleResult();
+    try {
+      return em.createNamedQuery("findByUsernameOrEmail", User.class)
+          .setParameter("search", usernameOrEmail != null 
+            ? usernameOrEmail.trim().toLowerCase() : "")
+          .getSingleResult();
+    } catch (final javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for username or email " + usernameOrEmail);            
+      return null;
+    } catch (javax.persistence.NonUniqueResultException e) {
+      LOGGER.warn("More than one result for username or email " + usernameOrEmail);
+      return null;
+    } 
   }
 
   public User findUserByUsername(final String username) {
-    return em.createNamedQuery("findByUsername", User.class)
-        .setParameter("username", username != null ? username.trim().toLowerCase() : "")
-        .setMaxResults(1)
-        .getSingleResult();
+    try {
+      return em.createNamedQuery("findByUsername", User.class)
+          .setParameter("username", username != null ? username.trim().toLowerCase() : "")
+          .getSingleResult();
+    } catch (final javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for username " + username);
+      return null;
+    } catch (javax.persistence.NonUniqueResultException e) {
+      LOGGER.warn("More than one result for username " + username);
+      return null;
+    }
   }
 
   public User findUserByEmail(final String email) {
-    return em.createNamedQuery("findByEmail", User.class)
-        .setParameter("email", email != null ? email.trim().toLowerCase() : "")
-        .setMaxResults(1)
-        .getSingleResult();
+    try {
+      return em.createNamedQuery("findByEmail", User.class)
+          .setParameter("email", email != null ? email.trim().toLowerCase() : "")
+          .getSingleResult();
+    } catch (final javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for email " + email);      
+      return null;
+    } catch (javax.persistence.NonUniqueResultException e) {
+      LOGGER.warn("More than one result for email " + email);
+      return null;
+    }   
   }
 
   public Collection<User> findAll() {

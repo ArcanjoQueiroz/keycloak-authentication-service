@@ -72,6 +72,7 @@ public class UserRepository {
           .setMaxResults(1)
           .getSingleResult();
     } catch (javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for username or email " + usernameOrEmail);      
       return null;      
     } catch (javax.persistence.NonUniqueResultException e) {
       LOGGER.warn("More than one result for username or email " + usernameOrEmail);
@@ -89,6 +90,7 @@ public class UserRepository {
           .setMaxResults(1)
           .getSingleResult();
     } catch (javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for username " + username);      
       return null;
     } catch (javax.persistence.NonUniqueResultException e) {
       LOGGER.warn("More than one result for username " + username);
@@ -105,6 +107,7 @@ public class UserRepository {
           .setMaxResults(1)
           .getSingleResult();
     } catch (javax.persistence.NoResultException e) {
+      LOGGER.warn("No result found for username " + username);
       return null;
     } catch (javax.persistence.NonUniqueResultException e) {
       LOGGER.warn("More than one result for username " + username);
