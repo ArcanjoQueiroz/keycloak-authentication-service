@@ -40,6 +40,8 @@ services:
         image: authentication-service:latest
         container_name: keycloak
         hostname: keycloak
+        depends_on:
+          - oracle
         ports:
           - "9999:8080"
           - "8787:8787"
