@@ -1,9 +1,9 @@
-version: '2.1'
+version: '2.4'
 services:
     oracle:
         image: orangehrm/oracle-xe-11g:latest
         container_name: oracle
-        hostname: "oracle"        
+        hostname: oracle
         volumes:
             - ./local-initdb:/etc/entrypoint-initdb.d
             - oracle-storage:/usr/lib/oracle/xe/oradata/XE
@@ -40,6 +40,8 @@ services:
         image: authentication-service:latest
         container_name: keycloak
         hostname: keycloak
+        mem_limit: 1024M
+        mem_reservation: 512M                
         depends_on:
           - oracle
         ports:
@@ -48,7 +50,7 @@ services:
         volumes:
           - ./keycloak:/tmp/keycloak:ro          
         environment:
-          JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n -Djava.net.preferIPv4Stack=true'
+          JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n -Djava.net.preferIPv4Stack=true -Xms512m -Xmx1024m'
           KEYCLOAK_USER: 'admin'
           KEYCLOAK_PASSWORD: 'admin'
           DB_VENDOR: 'oracle'
@@ -60,35 +62,68 @@ services:
           DB_PASSWORD: 'keycloak'
           TZ: GMT
           KEYCLOAK_IMPORT: "/tmp/keycloak/realm-test-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
+        healthcheck:
+          test: curl --fail http://localhost:9990 || exit 1
+          interval: 30s
+          timeout: 10s
+          retries: 30
+          start_period: 60s      
+          
 
     app:
         image: arcanjoqueiroz/spring-boot-2-keycloak-example:1.0.0
         container_name: app
         hostname: app
+        mem_limit: 512M
+        mem_reservation: 256M
+        depends_on:
+          - keycloak
         ports:
           - "9090:9090"
+          - "8888:8888"
         environment:
+          JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8888,server=y,suspend=n -Xms256m -Xmx512m'        
           APP_OAUTH2_EXTERNAL_URL: 'http://localhost:9999/auth'
           APP_OAUTH2_BASE_URL: 'http://keycloak:8080/auth'
           APP_OAUTH2_CLIENT_ID: 'test'
           APP_OAUTH2_CLIENT_SECRET: '9310a2f5-3625-4833-aa4b-2f38d0840674'
           APP_OAUTH2_REALM: 'test'
+        healthcheck:
+          test: curl --fail http://localhost:9090/actuator/health || exit 1
+          interval: 30s
+          timeout: 10s
+          retries: 30
+          start_period: 60s
+          
 
     client:
         image: arcanjoqueiroz/oauth2-spring-client-example:1.0.0
         container_name: client
         hostname: client
+        mem_limit: 512M
+        mem_reservation: 256M        
+        depends_on:
+          - keycloak
+          - app
         ports:
           - "9091:9091"
-        depends_on: 
-            - app          
+          - "8989:8989"          
         environment:
+          JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,address=*:8989,server=y,suspend=n -Xms256m -Xmx512m'        
           APP_OAUTH2_EXTERNAL_URL: 'http://localhost:9999/auth'
           APP_OAUTH2_BASE_URL: 'http://keycloak:8080/auth'
           APP_OAUTH2_CLIENT_ID: 'test'
           APP_OAUTH2_CLIENT_SECRET: '9310a2f5-3625-4833-aa4b-2f38d0840674'
           APP_OAUTH2_REALM: 'test'
           SERVICE_BASE_URL: 'http://app:9090'
+        healthcheck:
+          test: curl --fail http://localhost:9091/actuator/health || exit 1
+          interval: 30s
+          timeout: 10s
+          retries: 30
+          start_period: 60s
+
+          
 volumes:
   oracle-storage:
     external: true
