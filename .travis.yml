@@ -12,11 +12,6 @@ matrix:
         - "14"
       script: ./build-node.sh
   
-    - language: go
-      go:
-        - "1.16"
-      script: ./build-go.sh
-
     - language: python
       python:
         - "3.8"
